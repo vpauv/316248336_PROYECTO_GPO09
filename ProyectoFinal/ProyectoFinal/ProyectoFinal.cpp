@@ -158,10 +158,8 @@ int main()
 	Shader lightingShader("Shaders/lighting.vs", "Shaders/lighting.frag");
 	Shader lampShader("Shaders/lamp.vs", "Shaders/lamp.frag");
 	
-	Model Piso((char*)"Models/Esfera/Piso.obj");
-	Model Esfera((char*)"Models/Esfera/Esfera.obj");
-	Model Box((char*)"Models/Box/Box.obj");
 	Model cocina((char*)"Models/Merry/cocina/cocina.obj");
+	Model lounge((char*)"Models/Merry/lounge/lounge.obj");
 
 
 
@@ -327,6 +325,7 @@ int main()
 		//Piso.Draw(lightingShader);
 
 		cocina.Draw(lightingShader);
+		lounge.Draw(lightingShader);
 
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
 
