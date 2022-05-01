@@ -66,7 +66,7 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks parrilla_s.jpg
 Ns 18.00
-newmtl cocina1:lambert2SG
+newmtl cocina2:lambert2SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -74,14 +74,14 @@ Tf 1.00 1.00 1.00
 map_Kd azul1.jpg
 bump  -bm 1 azul_normal.png
 Ni 1.00
-newmtl cocina1:lambert5SG
+newmtl cocina2:lambert5SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd blanco.jpg
 Ni 1.00
-newmtl cocina1:lambert6SG
+newmtl cocina2:lambert6SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -89,14 +89,14 @@ Tf 1.00 1.00 1.00
 map_Kd parrilla.jpg
 bump  -bm 1 parrilla_normal.jpg
 Ni 1.00
-newmtl cocina1:pasted__lambert3SG
+newmtl cocina2:pasted__lambert3SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd piedra3.jpg
 Ni 1.00
-newmtl cocina1:phong2SG
+newmtl cocina2:phong2SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -106,7 +106,7 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks tarja_s.jpg
 Ns 18.00
-newmtl cocina1:phong3SG
+newmtl cocina2:phong3SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -116,7 +116,7 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks aluminio_s.jpg
 Ns 18.00
-newmtl cocina1:phong4SG
+newmtl cocina2:phong4SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -224,6 +224,142 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd lampara.jpg
 Ni 1.00
+newmtl lounge1:lambert4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd techo.jpg
+Ni 1.00
+newmtl lounge1:lambert6SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd pared_madera.jpg
+bump  -bm 1 pared_madera_normal.jpg
+Ni 1.00
+newmtl lounge1:lambert7SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd pared_arriba.jpg
+Ni 1.00
+newmtl lounge1:lambert8SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd cafe.jpg
+Ni 1.00
+newmtl lounge1:lambert13SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd ventana_azul.jpg
+Ni 1.00
+newmtl lounge1:lambert14SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd lampara.jpg
+Ni 1.00
+newmtl lounge1:phong2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_placa.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks metal_placa_s.jpg
+Ns 18.00
+newmtl lounge1:phong3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_lampara.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks metal_lampara_s.jpg
+Ns 18.00
+newmtl lounge1:phongE1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd dorado_marco.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks dorado_s_marco.jpg
+Ns 0.06
+newmtl mesa_silla:lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd madera.jpg
+Ni 1.00
+newmtl mesa_silla:lambert3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd mantel_color.jpg
+Ni 1.00
+newmtl mesa_silla:lambert5SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd madera_claro.jpg
+Ni 1.00
+newmtl mesa_silla:lambert6SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd madera2.jpg
+Ni 1.00
+newmtl miniMerry:lambert7SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd blanco.jpg
+Ni 1.00
+newmtl miniMerry:lambert8SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd madera.jpg
+Ni 1.00
+newmtl miniMerry:lambert12SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd cuerda.jpg
+Ni 1.00
+newmtl miniMerry:lambert13SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd cara.jpg
+Ni 1.00
+newmtl miniMerry:lambert15SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd cuerno.jpg
+Ni 1.00
 newmtl phong1SG
 illum 4
 Kd 0.00 0.00 0.00
@@ -263,3 +399,30 @@ map_Kd dorado_marco.jpg
 Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks dorado_s_marco.jpg
+newmtl refri_completo2:lambert3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refri_textura2.jpg
+Ni 1.00
+newmtl refri_completo2:phong1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd aluminio.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks aluminio_s.jpg
+Ns 18.00
+newmtl refri_completo2:phong2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd gold.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks gold_s.jpg
+Ns 18.00

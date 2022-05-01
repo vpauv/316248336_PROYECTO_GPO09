@@ -160,7 +160,9 @@ int main()
 	
 	Model cocina((char*)"Models/Merry/cocina/cocina.obj");
 	Model lounge((char*)"Models/Merry/lounge/lounge.obj");
-
+	Model vidrios_ventanas((char*)"Models/Merry/lounge/vidrios_ventanas.obj");
+	Model ventana_puerta((char*)"Models/Merry/lounge/ventana_puerta.obj");
+	Model puerta((char*)"Models/Merry/lounge/puerta.obj");
 
 
 	// First, set the container's VAO (and VBO)
@@ -324,10 +326,23 @@ int main()
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 		//Piso.Draw(lightingShader);
 
-		cocina.Draw(lightingShader);
+		//cocina.Draw(lightingShader);
 		lounge.Draw(lightingShader);
+		puerta.Draw(lightingShader);
 
+		//Ventanas
+		glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 0.78, 0.984, 1.0, 0.5);
+		vidrios_ventanas.Draw(lightingShader);
+		//ventana_puerta.Draw(lightingShader);
+		glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
+		glBindVertexArray(0);
+
 
 
 		// Also draw the lamp object, again binding the appropriate shader
