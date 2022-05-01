@@ -108,6 +108,10 @@ glm::vec3 Light4 = glm::vec3(0);
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
+float rotPuerta = 0.0f;
+bool puertaAbierta = false;
+
+
 int main()
 {
 	// Init GLFW
@@ -159,10 +163,14 @@ int main()
 	Shader lampShader("Shaders/lamp.vs", "Shaders/lamp.frag");
 	
 	Model cocina((char*)"Models/Merry/cocina/cocina.obj");
+	Model refrigerador((char*)"Models/Merry/refrigerador/refri_completo.obj");
+	Model miniMerry((char*)"Models/Merry/miniMerry/miniMerry.obj");
+	Model mesa((char*)"Models/Merry/mesa_silla/mesa_silla.obj");
 	Model lounge((char*)"Models/Merry/lounge/lounge.obj");
 	Model vidrios_ventanas((char*)"Models/Merry/lounge/vidrios_ventanas.obj");
 	Model ventana_puerta((char*)"Models/Merry/lounge/ventana_puerta.obj");
 	Model puerta((char*)"Models/Merry/lounge/puerta.obj");
+	Model lampara((char*)"Models/Merry/lounge/lampara.obj");
 
 
 	// First, set the container's VAO (and VBO)
@@ -328,9 +336,19 @@ int main()
 
 		//cocina.Draw(lightingShader);
 		lounge.Draw(lightingShader);
+		miniMerry.Draw(lightingShader);
+		refrigerador.Draw(lightingShader);
+		mesa.Draw(lightingShader);
+		cocina.Draw(lightingShader);
+		lampara.Draw(lightingShader);
+
+		//Movimiento de puerta
+		model = glm::mat4(1);
+		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		puerta.Draw(lightingShader);
 
-		//Ventanas
+		//OBJETOS CON TRANSPARENCIA
 		glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		model = glm::mat4(1);
@@ -338,7 +356,12 @@ int main()
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 0.78, 0.984, 1.0, 0.5);
 		vidrios_ventanas.Draw(lightingShader);
-		//ventana_puerta.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		ventana_puerta.Draw(lightingShader);
+
 		glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
 		glBindVertexArray(0);
@@ -505,6 +528,7 @@ void DoMovement()
 		spotLightPosition.z -= 0.01f;
 	}
 
+
 }
 
 // Is called whenever a key is pressed/released via GLFW
@@ -544,6 +568,19 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 			Light3 = glm::vec3(0);
 			Light4 = glm::vec3(0);
 		}
+	}
+
+	if (keys[GLFW_KEY_P])
+	{
+		if (puertaAbierta) {
+			rotPuerta = 0.0f;
+			puertaAbierta = false;
+		}
+		else {
+			rotPuerta = -90.0f;
+			puertaAbierta = true;
+		}
+
 	}
 }
 

@@ -168,7 +168,22 @@ Tf 1.00 1.00 1.00
 map_Kd pared_madera.jpg
 bump  -bm 1 pared_madera_normal.jpg
 Ni 1.00
+newmtl lambert6SG2
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd pared_madera.jpg
+bump  -bm 1 pared_madera_normal.jpg
+Ni 1.00
 newmtl lambert7SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd pared_arriba.jpg
+Ni 1.00
+newmtl lambert7SG2
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -224,79 +239,6 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd lampara.jpg
 Ni 1.00
-newmtl lounge1:lambert4SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd techo.jpg
-Ni 1.00
-newmtl lounge1:lambert6SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd pared_madera.jpg
-bump  -bm 1 pared_madera_normal.jpg
-Ni 1.00
-newmtl lounge1:lambert7SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd pared_arriba.jpg
-Ni 1.00
-newmtl lounge1:lambert8SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd cafe.jpg
-Ni 1.00
-newmtl lounge1:lambert13SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd ventana_azul.jpg
-Ni 1.00
-newmtl lounge1:lambert14SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd lampara.jpg
-Ni 1.00
-newmtl lounge1:phong2SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd metal_placa.jpg
-Ni 1.00
-Ks 0.00 0.00 0.00
-map_Ks metal_placa_s.jpg
-Ns 18.00
-newmtl lounge1:phong3SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd metal_lampara.jpg
-Ni 1.00
-Ks 0.00 0.00 0.00
-map_Ks metal_lampara_s.jpg
-Ns 18.00
-newmtl lounge1:phongE1SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd dorado_marco.jpg
-Ni 1.00
-Ks 0.00 0.00 0.00
-map_Ks dorado_s_marco.jpg
-Ns 0.06
 newmtl mesa_silla:lambert2SG
 illum 4
 Kd 0.00 0.00 0.00
@@ -399,30 +341,10 @@ map_Kd dorado_marco.jpg
 Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks dorado_s_marco.jpg
-newmtl refri_completo2:lambert3SG
+newmtl techo_lambert4SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-map_Kd refri_textura2.jpg
+map_Kd techo.jpg
 Ni 1.00
-newmtl refri_completo2:phong1SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd aluminio.jpg
-Ni 1.00
-Ks 0.00 0.00 0.00
-map_Ks aluminio_s.jpg
-Ns 18.00
-newmtl refri_completo2:phong2SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd gold.jpg
-Ni 1.00
-Ks 0.00 0.00 0.00
-map_Ks gold_s.jpg
-Ns 18.00
