@@ -23,6 +23,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Model.h"
+#include "Texture.h"
 
 // Function prototypes
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
@@ -99,6 +100,80 @@ float vertices[] = {
 	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 
+GLfloat skyboxVertices[] = {
+	// Positions
+	-1.0f,  1.0f, -1.0f,
+	-1.0f, -1.0f, -1.0f,
+	1.0f, -1.0f, -1.0f,
+	1.0f, -1.0f, -1.0f,
+	1.0f,  1.0f, -1.0f,
+	-1.0f,  1.0f, -1.0f,
+
+	-1.0f, -1.0f,  1.0f,
+	-1.0f, -1.0f, -1.0f,
+	-1.0f,  1.0f, -1.0f,
+	-1.0f,  1.0f, -1.0f,
+	-1.0f,  1.0f,  1.0f,
+	-1.0f, -1.0f,  1.0f,
+
+	1.0f, -1.0f, -1.0f,
+	1.0f, -1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	1.0f,  1.0f, -1.0f,
+	1.0f, -1.0f, -1.0f,
+
+	-1.0f, -1.0f,  1.0f,
+	-1.0f,  1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	1.0f, -1.0f,  1.0f,
+	-1.0f, -1.0f,  1.0f,
+
+	-1.0f,  1.0f, -1.0f,
+	1.0f,  1.0f, -1.0f,
+	1.0f,  1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	-1.0f,  1.0f,  1.0f,
+	-1.0f,  1.0f, -1.0f,
+
+	-1.0f, -1.0f, -1.0f,
+	-1.0f, -1.0f,  1.0f,
+	1.0f, -1.0f, -1.0f,
+	1.0f, -1.0f, -1.0f,
+	-1.0f, -1.0f,  1.0f,
+	1.0f, -1.0f,  1.0f
+};
+
+
+GLuint indices[] =
+{  // Note that we start from 0!
+	0,1,2,3,
+	4,5,6,7,
+	8,9,10,11,
+	12,13,14,15,
+	16,17,18,19,
+	20,21,22,23,
+	24,25,26,27,
+	28,29,30,31,
+	32,33,34,35
+};
+
+// Positions all containers
+glm::vec3 cubePositions[] = {
+	glm::vec3(0.0f,  0.0f,  0.0f),
+	glm::vec3(2.0f,  5.0f, -15.0f),
+	glm::vec3(-1.5f, -2.2f, -2.5f),
+	glm::vec3(-3.8f, -2.0f, -12.3f),
+	glm::vec3(2.4f, -0.4f, -3.5f),
+	glm::vec3(-1.7f,  3.0f, -7.5f),
+	glm::vec3(1.3f, -2.0f, -2.5f),
+	glm::vec3(1.5f,  2.0f, -2.5f),
+	glm::vec3(1.5f,  0.2f, -1.5f),
+	glm::vec3(-1.3f,  1.0f, -1.5f)
+};
+
+
 glm::vec3 Light1 = glm::vec3(0);
 glm::vec3 Light2 = glm::vec3(0);
 glm::vec3 Light3 = glm::vec3(0);
@@ -162,17 +237,20 @@ int main()
 
 	Shader lightingShader("Shaders/lighting.vs", "Shaders/lighting.frag");
 	Shader lampShader("Shaders/lamp.vs", "Shaders/lamp.frag");
+	Shader SkyBoxshader("Shaders/SkyBox.vs", "Shaders/SkyBox.frag");
 	
 	Model cocina((char*)"Models/Merry/cocina/cocina.obj");
 	Model refrigerador((char*)"Models/Merry/refrigerador/refri_completo.obj");
 	Model miniMerry((char*)"Models/Merry/miniMerry/miniMerry.obj");
 	Model mesa((char*)"Models/Merry/mesa_silla/mesa_silla.obj");
-	Model lounge((char*)"Models/Merry/lounge/lounge.obj");
+	Model lounge((char*)"Models/Merry/lounge/lounge2.obj");
 	Model vidrios_ventanas((char*)"Models/Merry/lounge/vidrios_ventanas.obj");
 	Model ventana_puerta((char*)"Models/Merry/lounge/ventana_puerta.obj");
 	Model puerta((char*)"Models/Merry/lounge/puerta.obj");
 	Model lampara((char*)"Models/Merry/lounge/lampara.obj");
 	Model rack_vino((char*)"Models/Merry/rack_vino/rack_vino.obj");
+	Model merry((char*)"Models/Merry/GoingMerry/merry4.obj");
+	Model mar((char*)"Models/mar/mar.obj");
 
 
 	// First, set the container's VAO (and VBO)
@@ -195,6 +273,39 @@ int main()
 	glUniform1i(glGetUniformLocation(lightingShader.Program, "material.specular"),1);
 
 	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 100.0f);
+
+	//SkyBox
+	GLuint skyboxVBO, skyboxVAO;
+	glGenVertexArrays(1, &skyboxVAO);
+	glGenBuffers(1, &skyboxVBO);
+	glBindVertexArray(skyboxVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+
+	// Load textures
+	vector<const GLchar*> faces;
+	faces.push_back("SkyBox/right.tga");
+	faces.push_back("SkyBox/left.tga");
+	faces.push_back("SkyBox/top.tga");
+	faces.push_back("SkyBox/bottom.tga");
+	faces.push_back("SkyBox/back.tga");
+	faces.push_back("SkyBox/front.tga");
+
+	/*faces.push_back("SkyBox/1/right.tga");
+	faces.push_back("SkyBox/1/left.tga");
+	faces.push_back("SkyBox/1/top.tga");
+	faces.push_back("SkyBox/1/bottom.tga");
+	faces.push_back("SkyBox/1/back.tga");
+	faces.push_back("SkyBox/1/front.tga");*/
+
+	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
+
+	//glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 1000.0f);
+
+
+
 
 	// Game loop
 	while (!glfwWindowShouldClose(window))
@@ -331,25 +442,32 @@ int main()
 
 		//Carga de modelo 
         view = camera.GetViewMatrix();	
+	
 		model = glm::mat4(1);
+		//model = glm::translate(model, glm::vec3(0.0f, -8.0f, -35.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
-		//Piso.Draw(lightingShader);
 
-		//cocina.Draw(lightingShader);
+		mar.Draw(lightingShader);
+		model = glm::translate(model, glm::vec3(0.0f, 6.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
+
 		lounge.Draw(lightingShader);
-		miniMerry.Draw(lightingShader);
+		/*miniMerry.Draw(lightingShader);
 		refrigerador.Draw(lightingShader);
 		mesa.Draw(lightingShader);
 		cocina.Draw(lightingShader);
 		lampara.Draw(lightingShader);
-		rack_vino.Draw(lightingShader);
+		rack_vino.Draw(lightingShader);*/
+
+		merry.Draw(lightingShader);
 
 		//Movimiento de puerta
 		model = glm::mat4(1);
 		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-		puerta.Draw(lightingShader);
+		//puerta.Draw(lightingShader);
 
 		//OBJETOS CON TRANSPARENCIA
 		glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
@@ -358,18 +476,16 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 0.78, 0.984, 1.0, 0.5);
-		vidrios_ventanas.Draw(lightingShader);
+		//vidrios_ventanas.Draw(lightingShader);
 
 		model = glm::mat4(1);
 		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-		ventana_puerta.Draw(lightingShader);
+		//ventana_puerta.Draw(lightingShader);
 
 		glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
 		glBindVertexArray(0);
-
-
 
 		// Also draw the lamp object, again binding the appropriate shader
 		lampShader.Use();
@@ -396,6 +512,25 @@ int main()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 		glBindVertexArray(0);
+
+
+		// Draw skybox as last
+		glDepthFunc(GL_LEQUAL);  // Change depth function so depth test passes when values are equal to depth buffer's content
+		SkyBoxshader.Use();
+		view = glm::mat4(glm::mat3(camera.GetViewMatrix()));	// Remove any translation component of the view matrix
+		glUniformMatrix4fv(glGetUniformLocation(SkyBoxshader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(glGetUniformLocation(SkyBoxshader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+		// skybox cube
+		glBindVertexArray(skyboxVAO);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+		glDepthFunc(GL_LESS); // Set depth function back to default
+
+
+
 
 
 
