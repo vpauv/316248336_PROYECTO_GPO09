@@ -1,10 +1,5 @@
 ﻿  ProyectoFinal.cpp
-C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(315,24): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(352,20): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
-          with
-          [
-              T=float
-          ]
+C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(316,24): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
 C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(353,20): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
           with
           [
@@ -15,11 +10,21 @@ C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\Proy
           [
               T=float
           ]
-C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(478,96): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
-C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(742,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(743,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(747,18): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(748,18): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(750,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(751,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(355,20): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
+          with
+          [
+              T=float
+          ]
+C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(482,96): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(746,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(747,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(751,18): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(752,18): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(754,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\ProyectoFinal\ProyectoFinal.cpp(755,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
+soil2-debug.lib(etc1_utils.obj) : warning LNK4099: no se encontró PDB 'soil2-debug.pdb' con 'soil2-debug.lib(etc1_utils.obj)' o en 'C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\Debug\soil2-debug.pdb'; se vinculará el objeto sin tener en cuenta información de depuración
+soil2-debug.lib(image_DXT.obj) : warning LNK4099: no se encontró PDB 'soil2-debug.pdb' con 'soil2-debug.lib(image_DXT.obj)' o en 'C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\Debug\soil2-debug.pdb'; se vinculará el objeto sin tener en cuenta información de depuración
+soil2-debug.lib(image_helper.obj) : warning LNK4099: no se encontró PDB 'soil2-debug.pdb' con 'soil2-debug.lib(image_helper.obj)' o en 'C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\Debug\soil2-debug.pdb'; se vinculará el objeto sin tener en cuenta información de depuración
+soil2-debug.lib(SOIL2.obj) : warning LNK4099: no se encontró PDB 'soil2-debug.pdb' con 'soil2-debug.lib(SOIL2.obj)' o en 'C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\Debug\soil2-debug.pdb'; se vinculará el objeto sin tener en cuenta información de depuración
   ProyectoFinal.vcxproj -> C:\Users\Adriana\Desktop\REPOSITORIO\316248336_PROYECTO_GPO09\ProyectoFinal\Debug\ProyectoFinal.exe
