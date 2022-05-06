@@ -56,122 +56,95 @@ glm::vec3 pointLightPositions[] = {
 glm::vec3 spotLightPosition(3.0f, 0.0f, 3.0f);
 glm::vec3 spotLightDirection(1.0f, 0.0f, 0.0f);
 
-float vertices[] = {
-	 -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	   -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+GLfloat vertices[] =
+{
+	// Positions            // Normals              // Texture Coords
+	-0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,     0.0f,  0.0f,
+	0.5f, -0.5f, -0.5f,     0.0f,  0.0f, -1.0f,     1.0f,  0.0f,
+	0.5f,  0.5f, -0.5f,     0.0f,  0.0f, -1.0f,     1.0f,  1.0f,
+	0.5f,  0.5f, -0.5f,     0.0f,  0.0f, -1.0f,     1.0f,  1.0f,
+	-0.5f,  0.5f, -0.5f,    0.0f,  0.0f, -1.0f,     0.0f,  1.0f,
+	-0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,     0.0f,  0.0f,
 
-	   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-	   -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-	   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+	-0.5f, -0.5f,  0.5f,    0.0f,  0.0f,  1.0f,     0.0f,  0.0f,
+	0.5f, -0.5f,  0.5f,     0.0f,  0.0f,  1.0f,     1.0f,  0.0f,
+	0.5f,  0.5f,  0.5f,     0.0f,  0.0f,  1.0f,     1.0f,  1.0f,
+	0.5f,  0.5f,  0.5f,     0.0f,  0.0f,  1.0f,  	1.0f,  1.0f,
+	-0.5f,  0.5f,  0.5f,    0.0f,  0.0f,  1.0f,     0.0f,  1.0f,
+	-0.5f, -0.5f,  0.5f,    0.0f,  0.0f,  1.0f,     0.0f,  0.0f,
 
-	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-	   -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-	   -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,    1.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,    1.0f,  1.0f,
+	-0.5f, -0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,    0.0f,  1.0f,
+	-0.5f, -0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,    0.0f,  1.0f,
+	-0.5f, -0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,    0.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,    1.0f,  0.0f,
 
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	0.5f,  0.5f,  0.5f,     1.0f,  0.0f,  0.0f,     1.0f,  0.0f,
+	0.5f,  0.5f, -0.5f,     1.0f,  0.0f,  0.0f,     1.0f,  1.0f,
+	0.5f, -0.5f, -0.5f,     1.0f,  0.0f,  0.0f,     0.0f,  1.0f,
+	0.5f, -0.5f, -0.5f,     1.0f,  0.0f,  0.0f,     0.0f,  1.0f,
+	0.5f, -0.5f,  0.5f,     1.0f,  0.0f,  0.0f,     0.0f,  0.0f,
+	0.5f,  0.5f,  0.5f,     1.0f,  0.0f,  0.0f,     1.0f,  0.0f,
 
-	   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-	   -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-	   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,     0.0f,  1.0f,
+	0.5f, -0.5f, -0.5f,     0.0f, -1.0f,  0.0f,     1.0f,  1.0f,
+	0.5f, -0.5f,  0.5f,     0.0f, -1.0f,  0.0f,     1.0f,  0.0f,
+	0.5f, -0.5f,  0.5f,     0.0f, -1.0f,  0.0f,     1.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,    0.0f, -1.0f,  0.0f,     0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,     0.0f,  1.0f,
 
-	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-	   -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+	-0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  1.0f,
+	0.5f,  0.5f, -0.5f,     0.0f,  1.0f,  0.0f,     1.0f,  1.0f,
+	0.5f,  0.5f,  0.5f,     0.0f,  1.0f,  0.0f,     1.0f,  0.0f,
+	0.5f,  0.5f,  0.5f,     0.0f,  1.0f,  0.0f,     1.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  1.0f
 };
 
-GLfloat skyboxVertices[] = {
-	// Positions
-	-1.0f,  1.0f, -1.0f,
-	-1.0f, -1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-	1.0f,  1.0f, -1.0f,
-	-1.0f,  1.0f, -1.0f,
-
-	-1.0f, -1.0f,  1.0f,
-	-1.0f, -1.0f, -1.0f,
-	-1.0f,  1.0f, -1.0f,
-	-1.0f,  1.0f, -1.0f,
-	-1.0f,  1.0f,  1.0f,
-	-1.0f, -1.0f,  1.0f,
-
-	1.0f, -1.0f, -1.0f,
-	1.0f, -1.0f,  1.0f,
-	1.0f,  1.0f,  1.0f,
-	1.0f,  1.0f,  1.0f,
-	1.0f,  1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-
-	-1.0f, -1.0f,  1.0f,
-	-1.0f,  1.0f,  1.0f,
-	1.0f,  1.0f,  1.0f,
-	1.0f,  1.0f,  1.0f,
-	1.0f, -1.0f,  1.0f,
-	-1.0f, -1.0f,  1.0f,
-
-	-1.0f,  1.0f, -1.0f,
-	1.0f,  1.0f, -1.0f,
-	1.0f,  1.0f,  1.0f,
-	1.0f,  1.0f,  1.0f,
-	-1.0f,  1.0f,  1.0f,
-	-1.0f,  1.0f, -1.0f,
-
-	-1.0f, -1.0f, -1.0f,
-	-1.0f, -1.0f,  1.0f,
-	1.0f, -1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-	-1.0f, -1.0f,  1.0f,
-	1.0f, -1.0f,  1.0f
-};
-
-
-GLuint indices[] =
-{  // Note that we start from 0!
-	0,1,2,3,
-	4,5,6,7,
-	8,9,10,11,
-	12,13,14,15,
-	16,17,18,19,
-	20,21,22,23,
-	24,25,26,27,
-	28,29,30,31,
-	32,33,34,35
-};
-
-// Positions all containers
-glm::vec3 cubePositions[] = {
-	glm::vec3(0.0f,  0.0f,  0.0f),
-	glm::vec3(2.0f,  5.0f, -15.0f),
-	glm::vec3(-1.5f, -2.2f, -2.5f),
-	glm::vec3(-3.8f, -2.0f, -12.3f),
-	glm::vec3(2.4f, -0.4f, -3.5f),
-	glm::vec3(-1.7f,  3.0f, -7.5f),
-	glm::vec3(1.3f, -2.0f, -2.5f),
-	glm::vec3(1.5f,  2.0f, -2.5f),
-	glm::vec3(1.5f,  0.2f, -1.5f),
-	glm::vec3(-1.3f,  1.0f, -1.5f)
-};
+//float vertices[] = {
+//	 -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+//		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+//		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+//		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+//	   -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+//	   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+//
+//	   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+//		0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+//		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+//		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+//	   -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+//	   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+//
+//	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+//	   -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+//	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+//	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+//	   -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+//	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+//
+//		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+//		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+//		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+//		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+//		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+//		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+//
+//	   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+//		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+//		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+//		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+//	   -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+//	   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+//
+//	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+//		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+//		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+//		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+//	   -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+//	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+//};
 
 
 glm::vec3 Light1 = glm::vec3(0);
@@ -186,6 +159,8 @@ GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 float rotPuerta = 0.0f;
 bool puertaAbierta = false;
+float tiempo;
+
 
 
 int main()
@@ -238,20 +213,96 @@ int main()
 	Shader lightingShader("Shaders/lighting.vs", "Shaders/lighting.frag");
 	Shader lampShader("Shaders/lamp.vs", "Shaders/lamp.frag");
 	Shader SkyBoxshader("Shaders/SkyBox.vs", "Shaders/SkyBox.frag");
+	Shader Anim("Shaders/anim.vs", "Shaders/anim.frag");
 	
 	Model cocina((char*)"Models/Merry/cocina/cocina.obj");
 	Model refrigerador((char*)"Models/Merry/refrigerador/refri_completo.obj");
 	Model miniMerry((char*)"Models/Merry/miniMerry/miniMerry.obj");
 	Model mesa((char*)"Models/Merry/mesa_silla/mesa_silla.obj");
-	Model lounge((char*)"Models/Merry/lounge/lounge2.obj");
+	Model lounge((char*)"Models/Merry/lounge/lounge.obj");
 	Model vidrios_ventanas((char*)"Models/Merry/lounge/vidrios_ventanas.obj");
 	Model ventana_puerta((char*)"Models/Merry/lounge/ventana_puerta.obj");
 	Model puerta((char*)"Models/Merry/lounge/puerta.obj");
 	Model lampara((char*)"Models/Merry/lounge/lampara.obj");
 	Model rack_vino((char*)"Models/Merry/rack_vino/rack_vino.obj");
 	Model merry((char*)"Models/Merry/GoingMerry/merry4.obj");
-	Model barril((char*)"Models/Merry/barril/barril.obj");
+	//Model barril((char*)"Models/Merry/barril/barril.obj");
 	Model mar((char*)"Models/mar/mar.obj");
+
+
+
+	GLfloat skyboxVertices[] = {
+		// Positions
+		-1.0f,  1.0f, -1.0f,
+		-1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		-1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f
+	};
+
+
+	GLuint indices[] =
+	{  // Note that we start from 0!
+		0,1,2,3,
+		4,5,6,7,
+		8,9,10,11,
+		12,13,14,15,
+		16,17,18,19,
+		20,21,22,23,
+		24,25,26,27,
+		28,29,30,31,
+		32,33,34,35
+	};
+
+	// Positions all containers
+	glm::vec3 cubePositions[] = {
+		glm::vec3(0.0f,  0.0f,  0.0f),
+		glm::vec3(2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f,  2.0f, -2.5f),
+		glm::vec3(1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
 
 
 	// First, set the container's VAO (and VBO)
@@ -273,7 +324,6 @@ int main()
 	glUniform1i(glGetUniformLocation(lightingShader.Program, "material.diffuse"), 0);
 	glUniform1i(glGetUniformLocation(lightingShader.Program, "material.specular"),1);
 
-	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 100.0f);
 
 	//SkyBox
 	GLuint skyboxVBO, skyboxVAO;
@@ -287,23 +337,23 @@ int main()
 
 	// Load textures
 	vector<const GLchar*> faces;
-	faces.push_back("SkyBox/right.tga");
+	/*faces.push_back("SkyBox/right.tga");
 	faces.push_back("SkyBox/left.tga");
 	faces.push_back("SkyBox/top.tga");
 	faces.push_back("SkyBox/bottom.tga");
 	faces.push_back("SkyBox/back.tga");
-	faces.push_back("SkyBox/front.tga");
+	faces.push_back("SkyBox/front.tga");*/
 
-	/*faces.push_back("SkyBox/1/right.tga");
+	faces.push_back("SkyBox/1/right.tga");
 	faces.push_back("SkyBox/1/left.tga");
 	faces.push_back("SkyBox/1/top.tga");
 	faces.push_back("SkyBox/1/bottom.tga");
 	faces.push_back("SkyBox/1/back.tga");
-	faces.push_back("SkyBox/1/front.tga");*/
+	faces.push_back("SkyBox/1/front.tga");
 
 	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
-	//glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 1000.0f);
+	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 1000.0f);
 
 
 
@@ -329,10 +379,6 @@ int main()
 		glEnable(GL_DEPTH_TEST);
 
 		
-		
-		//Load Model
-	
-
 		// Use cooresponding shader when setting uniforms/drawing objects
 		lightingShader.Use();
 		GLint viewPosLoc = glGetUniformLocation(lightingShader.Program, "viewPos");
@@ -386,13 +432,13 @@ int main()
 	
 		//model = glm::mat4(1);
 		//model = glm::translate(model, glm::vec3(0.0f, -8.0f, -35.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 
-		model = glm::translate(model, glm::vec3(0.0f, -5.0f, 0.0f));
+		/*model = glm::translate(model, glm::vec3(0.0f, -5.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
-		mar.Draw(lightingShader);
+		mar.Draw(lightingShader);*/
 
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -403,7 +449,7 @@ int main()
 		cocina.Draw(lightingShader);
 		lampara.Draw(lightingShader);
 		rack_vino.Draw(lightingShader);
-		barril.Draw(lightingShader);
+		//barril.Draw(lightingShader);
 
 		merry.Draw(lightingShader);
 
@@ -429,6 +475,27 @@ int main()
 
 		glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
+		glBindVertexArray(0);
+
+
+		Anim.Use();
+
+		tiempo = glfwGetTime();
+		modelLoc = glGetUniformLocation(Anim.Program, "model");
+		viewLoc = glGetUniformLocation(Anim.Program, "view");
+		projLoc = glGetUniformLocation(Anim.Program, "projection");
+
+		// Set matrices
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform1f(glGetUniformLocation(Anim.Program, "time"), tiempo);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(0.0f, -5.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		mar.Draw(Anim);
+
 		glBindVertexArray(0);
 
 

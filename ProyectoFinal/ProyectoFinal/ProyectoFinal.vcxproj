@@ -22,6 +22,8 @@
     <ClCompile Include="ProyectoFinal.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\anim.frag" />
+    <None Include="Shaders\anim.vs" />
     <None Include="Shaders\lighting.frag" />
     <None Include="Shaders\lighting.vs" />
   </ItemGroup>
