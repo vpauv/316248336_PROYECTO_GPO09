@@ -1,3 +1,9 @@
+newmtl initialShadingGroup
+illum 4
+Kd 0.50 0.50 0.50
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
 newmtl lambert2SG
 illum 4
 Kd 0.00 0.00 0.00
@@ -78,7 +84,14 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd madera2.jpg
 Ni 1.00
-newmtl lounge2_initialShadingGroup
+newmtl lambert14SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd lampara.jpg
+Ni 1.00
+newmtl lounge_initialShadingGroup
 illum 4
 Kd 0.50 0.50 0.50
 Ka 0.00 0.00 0.00

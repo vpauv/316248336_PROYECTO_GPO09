@@ -223,10 +223,11 @@ int main()
 	Model vidrios_ventanas((char*)"Models/Merry/lounge/vidrios_ventanas.obj");
 	Model ventana_puerta((char*)"Models/Merry/lounge/ventana_puerta.obj");
 	Model puerta((char*)"Models/Merry/lounge/puerta.obj");
-	Model lampara((char*)"Models/Merry/lounge/lampara.obj");
 	Model rack_vino((char*)"Models/Merry/rack_vino/rack_vino.obj");
-	Model merry((char*)"Models/Merry/GoingMerry/merry4.obj");
-	//Model barril((char*)"Models/Merry/barril/barril.obj");
+	Model merry((char*)"Models/Merry/GoingMerry/merry.obj");
+	Model bandera_n1((char*)"Models/Merry/GoingMerry/banderas/bandera_negra1.obj");
+	Model bandera_n2((char*)"Models/Merry/GoingMerry/banderas/bandera_negra2.obj");
+
 	Model mar((char*)"Models/mar/mar.obj");
 
 
@@ -443,13 +444,12 @@ int main()
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		lounge.Draw(lightingShader);
+		
 		miniMerry.Draw(lightingShader);
 		refrigerador.Draw(lightingShader);
 		mesa.Draw(lightingShader);
 		cocina.Draw(lightingShader);
-		lampara.Draw(lightingShader);
 		rack_vino.Draw(lightingShader);
-		//barril.Draw(lightingShader);
 
 		merry.Draw(lightingShader);
 
@@ -473,6 +473,8 @@ int main()
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		ventana_puerta.Draw(lightingShader);
 
+		
+
 		glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
 		glBindVertexArray(0);
@@ -490,11 +492,18 @@ int main()
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1f(glGetUniformLocation(Anim.Program, "time"), tiempo);
+		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 1);
 
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f, -5.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		mar.Draw(Anim);
+
+		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 2);
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		bandera_n1.Draw(Anim);
+		bandera_n2.Draw(Anim);
 
 		glBindVertexArray(0);
 
