@@ -1,17 +1,3 @@
-newmtl bandera_grande_lambert3SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd bandera_grande.jpg
-Ni 1.00
-newmtl bandera_grande_lambert3SG2
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd bandera_grande_atras.jpg
-Ni 1.00
 newmtl lambert5SG2
 illum 4
 Kd 0.00 0.00 0.00
@@ -26,25 +12,11 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd negro.jpg
 Ni 1.00
-newmtl lambert16SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd bandera_bicolor.jpg
-Ni 1.00
 newmtl merry4_initialShadingGroup
 illum 4
 Kd 0.50 0.50 0.50
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-Ni 1.00
-newmtl merry4_lambert4SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd cafe.jpg
 Ni 1.00
 newmtl merry4_lambert5SG
 illum 4
@@ -94,13 +66,6 @@ Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd cuerno_madera.jpg
-Ni 1.00
-newmtl merry4_lambert12SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd bandera.jpg
 Ni 1.00
 newmtl merry4_lambert13SG
 illum 4
@@ -153,6 +118,13 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks dorado_s_marco.jpg
 Ns 0.06
+newmtl merry_merry4_lambert4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd cafe.jpg
+Ni 1.00
 newmtl phong1SG2
 illum 4
 Kd 0.00 0.00 0.00
