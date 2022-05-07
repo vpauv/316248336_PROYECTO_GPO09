@@ -94,9 +94,9 @@ glm::vec3 pointLightPositions[] = {
 
 glm::vec3 LightP1;
 
-GLfloat valoresPosx[] = { 0.0f,-1.0f,-2.0f,-3.0f,-4.0f,-5.0f,-6.0f,-7.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f };
+GLfloat valoresPosx[] = { 0.0f,-2.0f,-4.0f,-8.0f,-10.0f,-12.0f,-14.0f,-16.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f };
 GLfloat valoresPosY[] = { 0.0f,0.0f,0.0f,0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,0.0f, 0.0f };
-GLfloat valoresPosZ[] = { 0.0f,-1.0f,-2.0f,-3.0f,-4.0f,-5.0f,-6.0f,-7.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f };
+GLfloat valoresPosZ[] = { 0.0f,-2.0f,-4.0f,-8.0f,-10.0f,-12.0f,-14.0f,-16.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f };
 GLfloat valoresRotMerry[] = { 5.0f,5.0f,-5.0f,-5.0f,5.0f,5.0f,-5.0f,-5.0f,20.0f,40.0f,60.0f,80.0f,100.0f,120.0f,140.0f,160.0f,180.0f };
 GLfloat valoresRotColaMerry[] = { 5.0f,-5.0f,5.0f,-5.0f, 5.0f,-5.0f,5.0f,-5.0f,5.0f,-5.0f,5.0f,-5.0f,5.0f,-5.0f,5.0f,-5.0f,5.0f };
 
@@ -543,7 +543,7 @@ int main()
 		view = camera.GetViewMatrix();
 		model = glm::translate(tmp, glm::vec3(-0.3f, -4.0f, 9.0f));
 		model = glm::rotate(model, glm::radians(rotColaMerry), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(tmp, glm::vec3(posX, posY, posZ));
+		model = glm::translate(model, glm::vec3(posX2, posY2, posZ2));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		cola_merry.Draw(lightingShader);
 		
