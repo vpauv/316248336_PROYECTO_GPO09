@@ -32,5 +32,11 @@
     <None Include="Shaders\anim.vs">
       <Filter>Archivos de origen</Filter>
     </None>
+    <None Include="Shaders\SkyBox.frag">
+      <Filter>Archivos de origen</Filter>
+    </None>
+    <None Include="Shaders\SkyBox.vs">
+      <Filter>Archivos de origen</Filter>
+    </None>
   </ItemGroup>
 </Project>

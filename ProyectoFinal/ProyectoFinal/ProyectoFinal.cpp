@@ -53,8 +53,8 @@ glm::vec3 pointLightPositions[] = {
 	glm::vec3(0.0f,0.0f, 0.0f)
 };
 
-glm::vec3 spotLightPosition(3.0f, 0.0f, 3.0f);
-glm::vec3 spotLightDirection(1.0f, 0.0f, 0.0f);
+//glm::vec3 spotLightPosition(3.0f, 0.0f, 3.0f);
+//glm::vec3 spotLightDirection(1.0f, 0.0f, 0.0f);
 
 GLfloat vertices[] =
 {
@@ -102,56 +102,10 @@ GLfloat vertices[] =
 	-0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  1.0f
 };
 
-//float vertices[] = {
-//	 -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-//		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-//		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-//		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-//	   -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-//	   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-//
-//	   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-//		0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-//		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-//		0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-//	   -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-//	   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-//
-//	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-//	   -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-//	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-//	   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-//	   -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-//	   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-//
-//		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-//		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-//		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-//		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-//		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-//		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-//
-//	   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-//		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-//		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-//		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-//	   -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-//	   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-//
-//	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-//		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-//		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-//		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-//	   -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-//	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
-//};
-
-
 glm::vec3 Light1 = glm::vec3(0);
 glm::vec3 Light2 = glm::vec3(0);
 glm::vec3 Light3 = glm::vec3(0);
 glm::vec3 Light4 = glm::vec3(0);
-
 
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
@@ -160,7 +114,6 @@ GLfloat lastFrame = 0.0f;  	// Time of last frame
 float rotPuerta = 0.0f;
 bool puertaAbierta = false;
 float tiempo;
-
 
 
 int main()
@@ -181,7 +134,6 @@ int main()
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
-
 		return EXIT_FAILURE;
 	}
 
@@ -208,8 +160,6 @@ int main()
 	// Define the viewport dimensions
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-
-
 	Shader lightingShader("Shaders/lighting.vs", "Shaders/lighting.frag");
 	Shader lampShader("Shaders/lamp.vs", "Shaders/lamp.frag");
 	Shader SkyBoxshader("Shaders/SkyBox.vs", "Shaders/SkyBox.frag");
@@ -224,12 +174,13 @@ int main()
 	Model ventana_puerta((char*)"Models/Merry/lounge/ventana_puerta.obj");
 	Model puerta((char*)"Models/Merry/lounge/puerta.obj");
 	Model rack_vino((char*)"Models/Merry/rack_vino/rack_vino.obj");
+
 	Model merry((char*)"Models/Merry/GoingMerry/merry.obj");
 	Model bandera_n1((char*)"Models/Merry/GoingMerry/banderas/bandera_negra1.obj");
 	Model bandera_n2((char*)"Models/Merry/GoingMerry/banderas/bandera_negra2.obj");
+	Model cola_merry((char*)"Models/Merry/GoingMerry/cola/cola_merry.obj");
 
 	Model mar((char*)"Models/mar/mar.obj");
-
 
 
 	GLfloat skyboxVertices[] = {
@@ -453,6 +404,12 @@ int main()
 
 		merry.Draw(lightingShader);
 
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-0.3f, -4.0f, 9.0f));
+		//model = glm::rotate(model, glm::radians(rotCMerry), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		cola_merry.Draw(lightingShader);
+
 		//Movimiento de puerta
 		model = glm::mat4(1);
 		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -600,93 +557,7 @@ void DoMovement()
 
 	}
 
-	if (keys[GLFW_KEY_T])
-	{
-		pointLightPositions[0].x += 0.01f;
-	}
-	if (keys[GLFW_KEY_G])
-	{
-		pointLightPositions[0].x -= 0.01f;
-	}
-
-	if (keys[GLFW_KEY_Y])
-	{
-		pointLightPositions[0].y += 0.01f;
-	}
-
-	if (keys[GLFW_KEY_H])
-	{
-		pointLightPositions[0].y -= 0.01f;
-	}
-	if (keys[GLFW_KEY_U])
-	{
-		pointLightPositions[0].z -= 0.1f;
-	}
-	if (keys[GLFW_KEY_J])
-	{
-		pointLightPositions[0].z += 0.01f;
-	}
 	
-	if (keys[GLFW_KEY_X])
-	{
-		spotLightDirection.x += 0.1f;
-	}
-
-	if (keys[GLFW_KEY_C])
-	{
-		spotLightDirection.x -= 0.1f;
-	}
-
-	if (keys[GLFW_KEY_V])
-	{
-		spotLightDirection.y += 0.1f;
-	}
-
-	if (keys[GLFW_KEY_B])
-	{
-		spotLightDirection.y -= 0.1f;
-	}
-
-	if (keys[GLFW_KEY_N])
-	{
-		spotLightDirection.z += 0.1f;
-	}
-
-	if (keys[GLFW_KEY_M])
-	{
-		spotLightDirection.z -= 0.1f;
-	}
-
-	if (keys[GLFW_KEY_1])
-	{
-		spotLightPosition.x += 0.01f;
-	}
-
-	if (keys[GLFW_KEY_2])
-	{
-		spotLightPosition.x -= 0.01f;
-	}
-
-	if (keys[GLFW_KEY_3])
-	{
-		spotLightPosition.y += 0.01f;
-	}
-
-	if (keys[GLFW_KEY_4])
-	{
-		spotLightPosition.y -= 0.01f;
-	}
-
-	if (keys[GLFW_KEY_5])
-	{
-		spotLightPosition.z += 0.01f;
-	}
-
-	if (keys[GLFW_KEY_6])
-	{
-		spotLightPosition.z -= 0.01f;
-	}
-
 
 }
 
