@@ -179,6 +179,8 @@ int main()
 	Model bandera_n1((char*)"Models/Merry/GoingMerry/banderas/bandera_negra1.obj");
 	Model bandera_n2((char*)"Models/Merry/GoingMerry/banderas/bandera_negra2.obj");
 	Model cola_merry((char*)"Models/Merry/GoingMerry/cola/cola_merry.obj");
+	Model bandera_bicolor((char*)"Models/Merry/GoingMerry/banderas/bicolor/bandera_bicolor.obj");
+	Model bandera_grande((char*)"Models/Merry/GoingMerry/banderas/grande/bandera_grande.obj");
 
 	Model mar((char*)"Models/mar/mar.obj");
 
@@ -462,6 +464,12 @@ int main()
 		bandera_n1.Draw(Anim);
 		bandera_n2.Draw(Anim);
 
+		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 3);
+		model = glm::mat4(1);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		bandera_bicolor.Draw(Anim);
+		bandera_grande.Draw(Anim);
+
 		glBindVertexArray(0);
 
 
@@ -507,15 +515,16 @@ int main()
 		glBindVertexArray(0);
 		glDepthFunc(GL_LESS); // Set depth function back to default
 
-
-
-
-
-
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
 	}
 
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteVertexArrays(1, &lightVAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+	glDeleteVertexArrays(1, &skyboxVAO);
+	glDeleteBuffers(1, &skyboxVBO);
 
 	// Terminate GLFW, clearing any resources allocated by GLFW.
 	glfwTerminate();

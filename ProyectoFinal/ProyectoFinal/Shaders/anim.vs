@@ -5,8 +5,9 @@ layout (location = 2) in vec2 aTexCoords;
 
 const float amplitude1 = 0.01;
 const float frequency1 = 4.0;
-const float amplitude2 = 0.1;
+const float amplitude2 = 0.05;
 const float frequency2 = 4.0;
+const float amplitude3 = 0.05;
 const float PI = 3.14159;
 out vec2 TexCoords;
 
@@ -29,8 +30,12 @@ void main()
 		float effect = amplitude2*sin(-PI*distance*frequency2+4*time);
 		gl_Position = projection*view*model*vec4(aPos.x,aPos.y, aPos.z+effect,1);
 		TexCoords=vec2(aTexCoords.x,aTexCoords.y);
-	
-
+	}
+	if(option == 3){
+		float distance = length(aPos);
+		float effect = amplitude3*sin(-PI*distance*frequency2+4*time);
+		gl_Position = projection*view*model*vec4(aPos.x,aPos.y, aPos.z+effect,1);
+		TexCoords=vec2(aTexCoords.x,aTexCoords.y);
 	}
 
 }

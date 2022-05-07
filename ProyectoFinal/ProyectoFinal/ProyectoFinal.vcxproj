@@ -19,15 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ProyectoFinal.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Shaders\anim.frag" />
     <None Include="Shaders\anim.vs" />
     <None Include="Shaders\lighting.frag" />
     <None Include="Shaders\lighting.vs" />
     <None Include="Shaders\SkyBox.frag" />
     <None Include="Shaders\SkyBox.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main_prac11.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
