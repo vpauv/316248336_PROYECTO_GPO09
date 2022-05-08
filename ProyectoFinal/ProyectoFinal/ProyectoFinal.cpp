@@ -29,13 +29,15 @@
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
 void MouseCallback(GLFWwindow *window, double xPos, double yPos);
 void DoMovement();
+void animacion();
+void lanzamiento();
 
 // Window dimensions
 const GLuint WIDTH = 800, HEIGHT = 600;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
 
 // Camera
-Camera  camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera  camera(glm::vec3(30.0f, 0.0f, -3.0f));
 GLfloat lastX = WIDTH / 2.0;
 GLfloat lastY = HEIGHT / 2.0;
 bool keys[1024];
@@ -45,62 +47,130 @@ glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 bool active;
 bool lamparaOn = false;
 
+//Animación de bala
+float movBalaX = 0.0;
+float movBalaY = 0.0;
+bool lanzar = false;
+float rotCanion = 0;
+float vi = 30.0f;
+#define g 9.81;
+
+glm::vec3 PosIni(0.0f, 0.0f, 0.0f);
+
+// Keyframes
+float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotMerry = 0, rotColaMerry = 0;
+float posX2 = PosIni.x, posY2 = PosIni.y, posZ2 = PosIni.z;
+
+#define MAX_FRAMES 17
+int i_max_steps = 190;
+int i_curr_steps = 0;
+
+
+typedef struct w
+{
+	//Variables para GUARDAR Key Frames
+	float posX;		//Variable para PosicionX
+	float posY;		//Variable para PosicionY
+	float posZ;		//Variable para PosicionZ
+	float posX2;		//Variable para PosicionX
+	float posY2;		//Variable para PosicionY
+	float posZ2;		//Variable para PosicionZ
+	float incX;		//Variable para IncrementoX
+	float incY;		//Variable para IncrementoY
+	float incZ;		//Variable para IncrementoZ
+	float incX2;		//Variable para IncrementoX
+	float incY2;		//Variable para IncrementoY
+	float incZ2;		//Variable para IncrementoZ
+	float rotInc;
+	float rotInc2;
+	float rotMerry;
+	float rotColaMerry;
+
+}FRAME;
+
+FRAME KeyFrame[MAX_FRAMES];
+
+int FrameIndex = 0;			//introducir datos
+bool play = false;
+int playIndex = 0;
+
+
 // Positions of the point lights
 glm::vec3 pointLightPositions[] = {
 	glm::vec3(-0.401f,1.1f, 2.3f),
-	glm::vec3(0.0f,0.0f, 0.0f),
-	glm::vec3(0.0f,0.0f, 0.0f),
-	glm::vec3(0.0f,0.0f, 0.0f)
+
 };
 
 //glm::vec3 spotLightPosition(3.0f, 0.0f, 3.0f);
 //glm::vec3 spotLightDirection(1.0f, 0.0f, 0.0f);
 
-GLfloat vertices[] =
+//GLfloat valoresPosX[] = { 0.0f, 0.15f, 0.3f,   0.3f, 0.15f,0.0f,      0.0f,  0.15f, 0.3f,   0.3f,  0.15f, 0.0f,   2.0f,  4.0f,  8.0f,    4.0f,2.0f,0.0f };
+GLfloat valoresPosY[] = { 0.0f, 0.0f,  0.0f,   0.0f, 0.0f, 0.0f,      0.0f,  0.0f,  0.0f,    0.0f,  0.0f,  0.0f,   0.0f,  0.0f,  0.0f,    0.0f, 0.0f,0.0f };
+GLfloat valoresPosX[] = { 0.0f, 0.0f,  0.0f,   0.0f, 0.0f, 0.0f,      0.0f,  0.0f,  0.0f,    0.0f,  0.0f,  0.0f,   0.0f,  0.0f,  0.0f,    0.0f, 0.0f,0.0f };
+GLfloat valoresPosZ[] = { 0.0f,-5.0f, -10.0f,  -15.0f,-20.0f,-25.0f,  -30.0f,-35.0f,-40.0f,  -45.0f,-50.0f,-55.0f, -55.0f,-55.0f,-55.0f,  -55.0f,-55.0f,-55.0 };
+GLfloat valoresPosX2[] = { 0.0f, 0.0f,  0.0f,   0.0f, 0.0f, 0.0f,      0.0f,  0.0f,  0.0f,    0.0f,  0.0f,  0.0f,   0.0f,  0.0f,  0.0f,    0.0f,0.0f,0.0f };
+GLfloat valoresPosY2[] = { 0.0f, 0.0f,  0.0f,   0.0f, 0.0f, 0.0f,      0.0f,  0.0f,  0.0f,    0.0f,  0.0f,  0.0f,   0.0f,  0.0f,  0.0f,    0.0f, 0.0f,0.0f };
+GLfloat valoresPosZ2[] = { 0.0f,-5.0f, -10.0f,  -15.0f,-20.0f,-25.0f,  -30.0f,-35.0f,-40.0f,  -45.0f,-50.0f,-55.0f, -55.0f,-55.0f,-55.0f,  -55.0f,-55.0f,-55.0 };
+GLfloat valoresRotMerry[] = { 0.0f, 0.0f,  0.0f,   0.0f, 0.0f, 0.0f,      0.0f,  0.0f,  0.0f,    0.0f,  0.0f,  0.0f,   30.0f,60.0f,90.0f,     120.0f,150.0f,180.0f };
+GLfloat valoresRotColaMerry[] = { 5.0f,-5.0f,  5.0f,  -5.0f, 5.0f,-5.0f,      5.0f, -5.0f,  5.0f,   -5.0f,  5.0f, -5.0f,  -5.0f,  5.0f, -5.0f, -5.0f,  5.0f, -5.0f, };
+
+
+void asignarValores(void)
 {
-	// Positions            // Normals              // Texture Coords
-	-0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,     0.0f,  0.0f,
-	0.5f, -0.5f, -0.5f,     0.0f,  0.0f, -1.0f,     1.0f,  0.0f,
-	0.5f,  0.5f, -0.5f,     0.0f,  0.0f, -1.0f,     1.0f,  1.0f,
-	0.5f,  0.5f, -0.5f,     0.0f,  0.0f, -1.0f,     1.0f,  1.0f,
-	-0.5f,  0.5f, -0.5f,    0.0f,  0.0f, -1.0f,     0.0f,  1.0f,
-	-0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,     0.0f,  0.0f,
+	int i = 0;
 
-	-0.5f, -0.5f,  0.5f,    0.0f,  0.0f,  1.0f,     0.0f,  0.0f,
-	0.5f, -0.5f,  0.5f,     0.0f,  0.0f,  1.0f,     1.0f,  0.0f,
-	0.5f,  0.5f,  0.5f,     0.0f,  0.0f,  1.0f,     1.0f,  1.0f,
-	0.5f,  0.5f,  0.5f,     0.0f,  0.0f,  1.0f,  	1.0f,  1.0f,
-	-0.5f,  0.5f,  0.5f,    0.0f,  0.0f,  1.0f,     0.0f,  1.0f,
-	-0.5f, -0.5f,  0.5f,    0.0f,  0.0f,  1.0f,     0.0f,  0.0f,
+	while (FrameIndex < MAX_FRAMES) {
+		printf("frameindex %d\n", FrameIndex);
+		KeyFrame[FrameIndex].posX = valoresPosX[i];
+		KeyFrame[FrameIndex].posY = valoresPosY[i];
+		KeyFrame[FrameIndex].posZ = valoresPosZ[i];
 
-	-0.5f,  0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,    1.0f,  0.0f,
-	-0.5f,  0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,    1.0f,  1.0f,
-	-0.5f, -0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,    0.0f,  1.0f,
-	-0.5f, -0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,    0.0f,  1.0f,
-	-0.5f, -0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,    0.0f,  0.0f,
-	-0.5f,  0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,    1.0f,  0.0f,
+		KeyFrame[FrameIndex].posX2 = valoresPosX2[i];
+		KeyFrame[FrameIndex].posY2 = valoresPosY2[i];
+		KeyFrame[FrameIndex].posZ2 = valoresPosZ2[i];
 
-	0.5f,  0.5f,  0.5f,     1.0f,  0.0f,  0.0f,     1.0f,  0.0f,
-	0.5f,  0.5f, -0.5f,     1.0f,  0.0f,  0.0f,     1.0f,  1.0f,
-	0.5f, -0.5f, -0.5f,     1.0f,  0.0f,  0.0f,     0.0f,  1.0f,
-	0.5f, -0.5f, -0.5f,     1.0f,  0.0f,  0.0f,     0.0f,  1.0f,
-	0.5f, -0.5f,  0.5f,     1.0f,  0.0f,  0.0f,     0.0f,  0.0f,
-	0.5f,  0.5f,  0.5f,     1.0f,  0.0f,  0.0f,     1.0f,  0.0f,
+		KeyFrame[FrameIndex].rotMerry = valoresRotMerry[i];
+		KeyFrame[FrameIndex].rotColaMerry = valoresRotColaMerry[i];
 
-	-0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,     0.0f,  1.0f,
-	0.5f, -0.5f, -0.5f,     0.0f, -1.0f,  0.0f,     1.0f,  1.0f,
-	0.5f, -0.5f,  0.5f,     0.0f, -1.0f,  0.0f,     1.0f,  0.0f,
-	0.5f, -0.5f,  0.5f,     0.0f, -1.0f,  0.0f,     1.0f,  0.0f,
-	-0.5f, -0.5f,  0.5f,    0.0f, -1.0f,  0.0f,     0.0f,  0.0f,
-	-0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,     0.0f,  1.0f,
+		i++;
+		FrameIndex++;
 
-	-0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  1.0f,
-	0.5f,  0.5f, -0.5f,     0.0f,  1.0f,  0.0f,     1.0f,  1.0f,
-	0.5f,  0.5f,  0.5f,     0.0f,  1.0f,  0.0f,     1.0f,  0.0f,
-	0.5f,  0.5f,  0.5f,     0.0f,  1.0f,  0.0f,     1.0f,  0.0f,
-	-0.5f,  0.5f,  0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  0.0f,
-	-0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  1.0f
-};
+	}
+
+}
+
+void resetElements(void)
+{
+	posX = KeyFrame[0].posX;
+	posY = KeyFrame[0].posY;
+	posZ = KeyFrame[0].posZ;
+
+	posX2 = KeyFrame[0].posX2;
+	posY2 = KeyFrame[0].posY2;
+	posZ2 = KeyFrame[0].posZ2;
+
+
+	rotMerry = KeyFrame[0].rotMerry;
+	rotColaMerry = KeyFrame[0].rotColaMerry;
+
+}
+
+void interpolation(void)
+{
+
+	KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].posX - KeyFrame[playIndex].posX) / i_max_steps;
+	KeyFrame[playIndex].incY = (KeyFrame[playIndex + 1].posY - KeyFrame[playIndex].posY) / i_max_steps;
+	KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].posZ - KeyFrame[playIndex].posZ) / i_max_steps;
+
+	KeyFrame[playIndex].incX2 = (KeyFrame[playIndex + 1].posX2 - KeyFrame[playIndex].posX2) / i_max_steps;
+	KeyFrame[playIndex].incY2 = (KeyFrame[playIndex + 1].posY2 - KeyFrame[playIndex].posY2) / i_max_steps;
+	KeyFrame[playIndex].incZ2 = (KeyFrame[playIndex + 1].posZ2 - KeyFrame[playIndex].posZ2) / i_max_steps;
+
+	KeyFrame[playIndex].rotInc = (KeyFrame[playIndex + 1].rotMerry - KeyFrame[playIndex].rotMerry) / i_max_steps;
+	KeyFrame[playIndex].rotInc2 = (KeyFrame[playIndex + 1].rotColaMerry - KeyFrame[playIndex].rotColaMerry) / i_max_steps;
+
+}
+
 
 glm::vec3 Light1 = glm::vec3(0);
 glm::vec3 Light2 = glm::vec3(0);
@@ -165,24 +235,100 @@ int main()
 	Shader SkyBoxshader("Shaders/SkyBox.vs", "Shaders/SkyBox.frag");
 	Shader Anim("Shaders/anim.vs", "Shaders/anim.frag");
 	
+	//Modelos dentro del Lounge
+	Model lounge((char*)"Models/Merry/lounge/lounge.obj");
 	Model cocina((char*)"Models/Merry/cocina/cocina.obj");
 	Model refrigerador((char*)"Models/Merry/refrigerador/refri_completo.obj");
 	Model miniMerry((char*)"Models/Merry/miniMerry/miniMerry.obj");
 	Model mesa((char*)"Models/Merry/mesa_silla/mesa_silla.obj");
-	Model lounge((char*)"Models/Merry/lounge/lounge.obj");
 	Model vidrios_ventanas((char*)"Models/Merry/lounge/vidrios_ventanas.obj");
 	Model ventana_puerta((char*)"Models/Merry/lounge/ventana_puerta.obj");
 	Model puerta((char*)"Models/Merry/lounge/puerta.obj");
 	Model rack_vino((char*)"Models/Merry/rack_vino/rack_vino.obj");
 
+	//Modelos externos del barco
 	Model merry((char*)"Models/Merry/GoingMerry/merry.obj");
 	Model bandera_n1((char*)"Models/Merry/GoingMerry/banderas/bandera_negra1.obj");
 	Model bandera_n2((char*)"Models/Merry/GoingMerry/banderas/bandera_negra2.obj");
 	Model cola_merry((char*)"Models/Merry/GoingMerry/cola/cola_merry.obj");
 	Model bandera_bicolor((char*)"Models/Merry/GoingMerry/banderas/bicolor/bandera_bicolor.obj");
 	Model bandera_grande((char*)"Models/Merry/GoingMerry/banderas/grande/bandera_grande.obj");
+	Model bala((char*)"Models/Merry/GoingMerry/bala/bala.obj");
+	Model canion((char*)"Models/Merry/GoingMerry/bala/canion.obj");
 
 	Model mar((char*)"Models/mar/mar.obj");
+
+	//Inicialización de KeyFrames
+	for (int i = 0; i < MAX_FRAMES; i++)
+	{
+		KeyFrame[i].posX = 0;
+		KeyFrame[i].posY = 0;
+		KeyFrame[i].posZ = 0;
+		KeyFrame[i].incX = 0;
+		KeyFrame[i].incY = 0;
+		KeyFrame[i].incZ = 0;
+
+		KeyFrame[i].posX2 = 0;
+		KeyFrame[i].posY2 = 0;
+		KeyFrame[i].posZ2 = 0;
+		KeyFrame[i].incX2 = 0;
+		KeyFrame[i].incY2 = 0;
+		KeyFrame[i].incZ2 = 0;
+
+		KeyFrame[i].rotInc = 0;
+		KeyFrame[i].rotInc2 = 0;
+
+		KeyFrame[i].rotMerry = 0;
+		KeyFrame[i].rotColaMerry = 0;
+
+	}
+
+
+	GLfloat vertices[] =
+	{
+		// Positions            // Normals              // Texture Coords
+		-0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,     0.0f,  0.0f,
+		0.5f, -0.5f, -0.5f,     0.0f,  0.0f, -1.0f,     1.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,     0.0f,  0.0f, -1.0f,     1.0f,  1.0f,
+		0.5f,  0.5f, -0.5f,     0.0f,  0.0f, -1.0f,     1.0f,  1.0f,
+		-0.5f,  0.5f, -0.5f,    0.0f,  0.0f, -1.0f,     0.0f,  1.0f,
+		-0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,     0.0f,  0.0f,
+
+		-0.5f, -0.5f,  0.5f,    0.0f,  0.0f,  1.0f,     0.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,     0.0f,  0.0f,  1.0f,     1.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,     0.0f,  0.0f,  1.0f,     1.0f,  1.0f,
+		0.5f,  0.5f,  0.5f,     0.0f,  0.0f,  1.0f,  	1.0f,  1.0f,
+		-0.5f,  0.5f,  0.5f,    0.0f,  0.0f,  1.0f,     0.0f,  1.0f,
+		-0.5f, -0.5f,  0.5f,    0.0f,  0.0f,  1.0f,     0.0f,  0.0f,
+
+		-0.5f,  0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,    1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,    1.0f,  1.0f,
+		-0.5f, -0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,    0.0f,  1.0f,
+		-0.5f, -0.5f, -0.5f,    -1.0f,  0.0f,  0.0f,    0.0f,  1.0f,
+		-0.5f, -0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,    0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,    -1.0f,  0.0f,  0.0f,    1.0f,  0.0f,
+
+		0.5f,  0.5f,  0.5f,     1.0f,  0.0f,  0.0f,     1.0f,  0.0f,
+		0.5f,  0.5f, -0.5f,     1.0f,  0.0f,  0.0f,     1.0f,  1.0f,
+		0.5f, -0.5f, -0.5f,     1.0f,  0.0f,  0.0f,     0.0f,  1.0f,
+		0.5f, -0.5f, -0.5f,     1.0f,  0.0f,  0.0f,     0.0f,  1.0f,
+		0.5f, -0.5f,  0.5f,     1.0f,  0.0f,  0.0f,     0.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,     1.0f,  0.0f,  0.0f,     1.0f,  0.0f,
+
+		-0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,     0.0f,  1.0f,
+		0.5f, -0.5f, -0.5f,     0.0f, -1.0f,  0.0f,     1.0f,  1.0f,
+		0.5f, -0.5f,  0.5f,     0.0f, -1.0f,  0.0f,     1.0f,  0.0f,
+		0.5f, -0.5f,  0.5f,     0.0f, -1.0f,  0.0f,     1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,    0.0f, -1.0f,  0.0f,     0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,     0.0f,  1.0f,
+
+		-0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  1.0f,
+		0.5f,  0.5f, -0.5f,     0.0f,  1.0f,  0.0f,     1.0f,  1.0f,
+		0.5f,  0.5f,  0.5f,     0.0f,  1.0f,  0.0f,     1.0f,  0.0f,
+		0.5f,  0.5f,  0.5f,     0.0f,  1.0f,  0.0f,     1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  1.0f
+	};
 
 
 	GLfloat skyboxVertices[] = {
@@ -260,12 +406,15 @@ int main()
 
 
 	// First, set the container's VAO (and VBO)
-	GLuint VBO, VAO;
+	GLuint VBO, VAO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	// Position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
@@ -324,6 +473,8 @@ int main()
 		// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 		glfwPollEvents();
 		DoMovement();
+		animacion();
+		lanzamiento();
 
 		// Clear the colorbuffer
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -379,7 +530,7 @@ int main()
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-		glm::mat4 model(1);
+		//glm::mat4 model(1);
 
 		//Carga de modelo 
         //view = camera.GetViewMatrix();	
@@ -394,50 +545,80 @@ int main()
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 		mar.Draw(lightingShader);*/
 
-		model = glm::mat4(1);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		lounge.Draw(lightingShader);
-		
+		glBindVertexArray(VAO);
+		glm::mat4 tmp = glm::mat4(1.0f); //Temp
+
+		//Carga de modelo 
+		//Personaje
+		view = camera.GetViewMatrix();
+		glm::mat4 model(1);
+		tmp = model = glm::translate(model, glm::vec3(sin(tiempo), posY, posZ));
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		miniMerry.Draw(lightingShader);
 		refrigerador.Draw(lightingShader);
 		mesa.Draw(lightingShader);
 		cocina.Draw(lightingShader);
 		rack_vino.Draw(lightingShader);
-
 		merry.Draw(lightingShader);
+		lounge.Draw(lightingShader);
 
-		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-0.3f, -4.0f, 9.0f));
-		//model = glm::rotate(model, glm::radians(rotCMerry), glm::vec3(0.0f, 1.0f, 0.0f));
+		//Cañón y bala
+		glm::mat4 model(1);
+		model = glm::translate(model, glm::vec3(sin(tiempo), posY, posZ));
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-		cola_merry.Draw(lightingShader);
+		bala.Draw(lightingShader);
+
+		glm::mat4 model(1);
+		model = glm::translate(model, glm::vec3(sin(tiempo), posY, posZ));
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
+		model = glm::rotate(model, glm::radians(rotCanion), glm::vec3(0.0f, 0.0f, 1.0));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		bala.Draw(lightingShader);
+		canion.Draw(lightingShader);
 
 		//Movimiento de puerta
 		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(sin(tiempo), posY, posZ));
 		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		puerta.Draw(lightingShader);
 
 		//OBJETOS CON TRANSPARENCIA
 		glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(sin(tiempo), posY, posZ));
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 0.78, 0.984, 1.0, 0.5);
 		vidrios_ventanas.Draw(lightingShader);
 
 		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(sin(tiempo), posY, posZ));
 		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
+	
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		ventana_puerta.Draw(lightingShader);
 
-		
-
 		glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
-		glBindVertexArray(0);
 
+
+		view = camera.GetViewMatrix();
+		model = glm::translate(tmp, glm::vec3(-0.3f, -4.0f, 9.0f));
+		model = glm::translate(model, glm::vec3(sin(tiempo), posY2, posZ2));
+		model = glm::rotate(model, glm::radians(rotColaMerry), glm::vec3(0.0f, 1.0f, 0.0f));
+		
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		cola_merry.Draw(lightingShader);
 
 		Anim.Use();
 
@@ -455,20 +636,33 @@ int main()
 
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f, -5.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		mar.Draw(Anim);
 
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 2);
 		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(sin(tiempo), posY, posZ));
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
+		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		bandera_n1.Draw(Anim);
 		bandera_n2.Draw(Anim);
 
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 3);
 		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(sin(tiempo), posY, posZ));
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
+		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		bandera_bicolor.Draw(Anim);
 		bandera_grande.Draw(Anim);
+
+		//model = glm::mat4(1);
+		//model = glm::translate(model, glm::vec3(-0.3f, -4.0f, 9.0f));
+		////model = glm::rotate(model, glm::radians(rotCMerry), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		//cola_merry.Draw(lightingShader);
 
 		glBindVertexArray(0);
 
@@ -484,19 +678,14 @@ int main()
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		model = glm::mat4(1);
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+		model = glm::translate(tmp, pointLightPositions[0]);
+		model = glm::scale(model, glm::vec3(0.05f)); // Make it a smaller cube
+		model = glm::translate(model, glm::vec3(sin(tiempo), posY, posZ));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		// Draw the light object (using light's vertex attributes)
-		for (GLuint i = 0; i < 1; i++)
-		{
-			model = glm::mat4(1);
-			model = glm::translate(model, pointLightPositions[i]);
-			model = glm::scale(model, glm::vec3(0.05f)); // Make it a smaller cube
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			glBindVertexArray(VAO);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
+		
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		
 		glBindVertexArray(0);
 
 
@@ -520,7 +709,6 @@ int main()
 	}
 
 	glDeleteVertexArrays(1, &VAO);
-	glDeleteVertexArrays(1, &lightVAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 	glDeleteVertexArrays(1, &skyboxVAO);
@@ -533,6 +721,63 @@ int main()
 
 	return 0;
 }
+
+
+void animacion()
+{
+
+	//Movimiento del personaje
+
+	if (play)
+	{
+		if (i_curr_steps >= i_max_steps) //end of animation between frames?
+		{
+			playIndex++;
+			if (playIndex > FrameIndex - 2)	//end of total animation?
+			{
+				printf("termina anim\n");
+				playIndex = 0;
+				play = false;
+			}
+			else //Next frame interpolations
+			{
+				i_curr_steps = 0; //Reset counter
+								  //Interpolation
+				interpolation();
+			}
+		}
+		else
+		{
+			//Draw animation
+			posX += KeyFrame[playIndex].incX;
+			posY += KeyFrame[playIndex].incY;
+			posZ += KeyFrame[playIndex].incZ;
+
+			posX2 += KeyFrame[playIndex].incX2;
+			posY2 += KeyFrame[playIndex].incY2;
+			posZ2 += KeyFrame[playIndex].incZ2;
+
+			rotMerry += KeyFrame[playIndex].rotInc;
+			rotColaMerry += KeyFrame[playIndex].rotInc2;
+
+			i_curr_steps++;
+		}
+
+	}
+}
+
+void lanzamiento() {
+	if (lanzar) {
+		for (movBalaX = 0; movBalaX < 20; movBalaX = movBalaX + 0.05) {
+			movBalaY = tan(rad(rotCanion)) * movBalaX - (g / (2 * vi * vi * cos(rad(rotCanion)) * cos(rad(rotCanion))))* movBalaX* movBalaX;
+		}
+		if (movBalaY < 0) {
+			rotCanion = 0;
+			
+		}
+	}
+}
+
 
 // Moves/alters the camera positions based on user input
 void DoMovement()
@@ -573,6 +818,51 @@ void DoMovement()
 // Is called whenever a key is pressed/released via GLFW
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
 {
+	if (keys[GLFW_KEY_M])
+	{
+		if (play == false && (FrameIndex > 1))
+		{
+
+			resetElements();
+			//First Interpolation				
+			interpolation();
+
+			play = true;
+			playIndex = 0;
+			i_curr_steps = 0;
+		}
+		else
+		{
+			play = false;
+		}
+
+	}
+
+	if (keys[GLFW_KEY_K])
+	{
+		if (FrameIndex < MAX_FRAMES)
+		{
+			asignarValores();
+		}
+
+	}
+
+	if (keys[GLFW_KEY_L])
+	{
+		if (lanzar)
+		{
+			lanzar = false;
+			rotCanion = 0;
+		}
+		else {
+			lanzar = true;
+			rotCanion = 30;
+		}
+			
+
+
+	}
+
 	if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
 	{
 		glfwSetWindowShouldClose(window, GL_TRUE);

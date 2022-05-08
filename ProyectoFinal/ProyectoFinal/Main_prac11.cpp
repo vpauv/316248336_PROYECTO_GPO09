@@ -58,7 +58,7 @@ GLfloat lastFrame = 0.0f;  	// Time of last frame
 // Keyframes
 float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotMerry = 0, rotColaMerry = 0;
 
-#define MAX_FRAMES 16
+#define MAX_FRAMES 17
 int i_max_steps = 190;
 int i_curr_steps = 0;
 
@@ -94,11 +94,11 @@ glm::vec3 pointLightPositions[] = {
 
 glm::vec3 LightP1;
 
-GLfloat valoresPosx[] = { 0.0f,-2.0f,-4.0f,-8.0f,-10.0f,-12.0f,-14.0f,-16.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f };
-GLfloat valoresPosY[] = { 0.0f,0.0f,0.0f,0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,0.0f, 0.0f };
-GLfloat valoresPosZ[] = { 0.0f,-2.0f,-4.0f,-8.0f,-10.0f,-12.0f,-14.0f,-16.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f };
-GLfloat valoresRotMerry[] = { 5.0f,5.0f,-5.0f,-5.0f,5.0f,5.0f,-5.0f,-5.0f,20.0f,40.0f,60.0f,80.0f,100.0f,120.0f,140.0f,160.0f,180.0f };
-GLfloat valoresRotColaMerry[] = { 5.0f,-5.0f,5.0f,-5.0f, 5.0f,-5.0f,5.0f,-5.0f,5.0f,-5.0f,5.0f,-5.0f,5.0f,-5.0f,5.0f,-5.0f,5.0f };
+GLfloat valoresPosX[] =         { 0.0f, 0.15f, 0.3f,   0.3f, 0.15f,0.0f,      0.0f,  0.15f, 0.3f,   0.3f,  0.15f, 0.0f,   2.0f,  4.0f,  8.0f,    10.0f,12.0f,14.0f };
+GLfloat valoresPosY[] =         { 0.0f, 0.0f,  0.0f,   0.0f, 0.0f, 0.0f,      0.0f,  0.0f,  0.0f,    0.0f,  0.0f,  0.0f,   0.0f,  0.0f,  0.0f,    0.0f, 0.0f,0.0f };
+GLfloat valoresPosZ[] =         { 0.0f,-5.0f, -10.0f,  -15.0f,-20.0f,-25.0f,  -30.0f,-35.0f,-40.0f,  -45.0f,-50.0f,-55.0f, -55.0f,-55.0f,-55.0f,  -55.0f,-55.0f,-55.0};
+GLfloat valoresRotMerry[] =     { 4.0f, 4.0f,  4.0f,  -8.0f,-8.0f,-8.0f,      4.0f,  4.0f,  4.0f,   -8.0f, -8.0f, 0.0f,   30.0f,60.0f,90.0f,     120.0f,150.0f,180.0f };
+GLfloat valoresRotColaMerry[] = { 5.0f,-5.0f,  5.0f,  -5.0f, 5.0f,-5.0f,      5.0f, -5.0f,  5.0f,   -5.0f,  5.0f, -5.0f,  -5.0f,  5.0f, -5.0f, -5.0f,  5.0f, -5.0f, };
 
 
 void asignarValores(void)
@@ -107,7 +107,7 @@ void asignarValores(void)
 	
 	while (FrameIndex < MAX_FRAMES) {
 		printf("frameindex %d\n", FrameIndex);
-		KeyFrame[FrameIndex].posX = valoresPosx[i];
+		KeyFrame[FrameIndex].posX = valoresPosX[i];
 		KeyFrame[FrameIndex].posY = valoresPosY[i];
 		KeyFrame[FrameIndex].posZ = valoresPosZ[i];
 
@@ -527,14 +527,15 @@ int main()
 
 		glBindVertexArray(VAO);
 		glm::mat4 tmp = glm::mat4(1.0f); //Temp
+		glm::mat4 tmp2 = glm::mat4(1.0f); //Temp
 
 
 		//Carga de modelo 
 		//Personaje
 		view = camera.GetViewMatrix();
 		glm::mat4 model(1);
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
+		tmp2 = model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		merry.Draw(lightingShader);
 		lounge.Draw(lightingShader);
@@ -542,8 +543,8 @@ int main()
 
 		view = camera.GetViewMatrix();
 		model = glm::translate(tmp, glm::vec3(-0.3f, -4.0f, 9.0f));
+		model = glm::translate(model, glm::vec3(posX, posY, posZ));
 		model = glm::rotate(model, glm::radians(rotColaMerry), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(posX2, posY2, posZ2));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		cola_merry.Draw(lightingShader);
 		

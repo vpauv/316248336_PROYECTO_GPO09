@@ -27,7 +27,7 @@
     <None Include="Shaders\SkyBox.vs" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main_prac11.cpp" />
+    <ClCompile Include="ProyectoFinal.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
