@@ -50,6 +50,7 @@ bool lamparaOn = false;
 bool detenerMerry = false;
 
 //Animación de bala
+glm::mat4 tmp2 = glm::mat4(1.0f);
 float movBalaX = 0.0f;
 float movBalaY = 0.0f;
 bool lanzar = false;
@@ -57,7 +58,7 @@ float rotCanion = 0.0f;
 double vi = 20.0f;
 #define g 9.81
 
-glm::vec3 PosIni(0.0f, 0.0f, 3.0f);
+glm::vec3 PosIni(0.0f, 0.0f, 0.0f);
 
 // Keyframes
 float posX = PosIni.x, posZ = PosIni.z, rotMerry = 0;
@@ -99,11 +100,14 @@ glm::vec3 pointLightPositions[] = {
 };
 
 GLfloat valoresPosX[]     = { 0.0f, 0.15f, 0.3f,   0.3f,  0.15f, 0.0f,    0.0f,  0.15f, 0.3f,    0.3f,  0.15f, 0.0f,  //   
-							  2.0f,  4.0f,  2.0f,  2.0f,  4.0f,  2.0f,    2.0f,  4.0f,  2.0f,    2.0f,  4.0f,  2.0f,
-							  0.0f, 10.0f, 20.0f,  30.0f, 40.0f, 50.0f,   60.0f, 70.0f, 80.0f,   90.0f, 100.0f, 110.0f,  //Movimiento hacia la derecha
-	                            
-	                          
-	                          4.0f,  2.0f,  0.0f,  0.0f, 0.15f, 0.3f,    0.3f,  0.15f, 0.0f,    0.0f, 0.15f,  0.3f,    0.3f, 0.15f, 0.0f, -2.0f,-4.0f,-8.0f,  -4.0f,-2.0f,0.0f, };
+							  0.0f,  0.0f,  0.0f,
+							  0.0f, -10.0f, -20.0f,  -30.0f, -40.0f, -50.0f,   -60.0f, -70.0f, -80.0f,   -90.0f, -100.0f, -110.0f,  //Movimiento hacia la derecha
+							  -110.0f, -110.0f, -110.0f,  //Se mantiene en la posición x = 110 mientras gira a la derecha
+							  -110.0f, -109.85, -109.7, -109.7, -109.85, -110.0f,  -110.0f, -109.85, -109.7, -109.7, -109.85, -110.0f,
+							  -110.0f, -110.0f, -110.0f,  //Se mantiene en la posición x = 110 mientras gira a la derecha
+	                          -110.0f, -100.0f, -90.0f, -80.0f, -70.0f, -60.0f, -50.0f, -40.0f, -30.0f, -20.0f, -10.0f, 0.0f,  //Movimiento hacia la izquierda
+							  0.0f,  0.0f,  0.0f,
+                            };
 
 GLfloat valoresPosZ[]     = { 0.0f, 10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70.0f, 80.0f, 90.0f, 100.0f, 110.0f,  //Movimiento hacia adelante
 							  110.0f, 110.0f, 110.0f,  //Se mantiene en la posición z = 110 mientras gira a la derecha
@@ -111,7 +115,7 @@ GLfloat valoresPosZ[]     = { 0.0f, 10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70
 							  110.0f, 110.0f, 110.0f,  //Se mantiene en la posición z = 110 mientras gira a la derecha
 	                          110.0f, 100.0f, 90.0f, 80.0f, 70.0f, 60.0f, 50.0f, 40.0f, 30.0f, 20.0f, 10.0f, 0.0f,  //Movimiento hacia atrás
 							  0.0f, 0.0f,  0.0f,  //Se mantiene en la posición z = 0 mientras gira a la derecha
-							  0.0f, 0.15f, 0.3f,   0.3f,  0.15f, 0.0f,    0.0f,  0.15f, 0.3f,    0.3f,  0.15f, 0.0f,
+							  0.0f, 0.15f, 0.3f,   0.3f,  0.15f, 0.0f,    0.0f,  0.15f, 0.3f, 0.3f,  0.15f, 0.0f,
 							  0.0f, 0.0f,  0.0f  //Se mantiene en la posición z = 0 mientras gira a la derecha
                             };
 
@@ -119,7 +123,7 @@ GLfloat valoresRotMerry[] = { 4.0f, 4.0f,  4.0f,  -8.0f, -8.0f, -8.0f,  4.0f,  4
                               -30.0f, -60.0f, -90.0f,   //Giro hacia la derecha
 							  -94.0f, -94.0f,  -94.0f, -90.0f, -90.0f, -90.0f,  -84.0f,  -84.0f,  -84.0f,  -90.0f, -90.0f,  -90.0f,    //Rotación ligera mientras avanza hacia la derecha
                               -120.0f, -150.0f, -180.0f,  //Giro hacia la derecha
-	                          -184.0f, -184.0f, 184.0f,  -180.0f, -180.0f, -180.0f,  -184.0f, -184.0f, 184.0f,  -180.0f, -180.0f, -180.0f, //Rotación ligera mientras avanza hacia atrás
+	                          -184.0f, -184.0f, -184.0f,  -180.0f, -180.0f, -180.0f,  -184.0f, -184.0f, -184.0f,  -180.0f, -180.0f, -180.0f, //Rotación ligera mientras avanza hacia atrás
 							  -210.0f, -240.0f, -270.0f,  //Giro hacia la derecha
 	                          -274.0f, -274.0f, -274.0f,  -270.0f, -270.0f, -270.0f, -274.0f, -274.0f, -274.0f,  -270.0f, -270.0f, -270.0f, //Rotación ligera mientras avanza hacia la izquierda
 							  -300.0f, -330.0f, -360.0f,  //Giro hacia la derecha
@@ -513,23 +517,27 @@ int main()
 
 		//Cañón y bala
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(movBalaX, movBalaY, 0.0f));
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(-7.0f, -2.0f, -3.5f));
+		model = glm::translate(model, glm::vec3(movBalaX, movBalaY, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
-		
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		bala.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
+		model = glm::translate(model, glm::vec3(-7.3f, -2.106f, -3.6f));
+		tmp2 = model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotCanion), glm::vec3(0.0f, 0.0f, 1.0));
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		canion.Draw(lightingShader);
 
 		//Movimiento de puerta
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -540,7 +548,8 @@ int main()
 		glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
@@ -548,7 +557,8 @@ int main()
 		vidrios_ventanas.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(0.5*tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5*tiempo), 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
 	
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
@@ -579,7 +589,8 @@ int main()
 
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 2);
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -588,7 +599,8 @@ int main()
 
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 3);
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -696,7 +708,8 @@ void lanzamiento() {
 		if(movBalaY > -5){
 			
 		movBalaY = tan(ang) * movBalaX - (g / (2*vi*vi *cos(ang)*cos(ang)))* movBalaX* movBalaX;
-		movBalaX += 0.05f;
+	    //if()
+		movBalaX -= 0.05f;
 
 		}
 		else {
@@ -739,6 +752,24 @@ void DoMovement()
 
 	}
 
+	if (keys[GLFW_KEY_V]) {
+		if (rotCanion >= -25 && rotCanion < 18) {
+			rotCanion += 0.1;
+		}
+		else {
+			rotCanion = 18;
+		}
+		
+	}
+
+	if (keys[GLFW_KEY_N]) {
+		if (rotCanion > -25 && rotCanion <= 18) {
+			rotCanion -= 0.1;
+		}
+		else {
+			rotCanion = -25;
+		}
+	}
 	
 
 }
@@ -746,45 +777,6 @@ void DoMovement()
 // Is called whenever a key is pressed/released via GLFW
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
 {
-	if (keys[GLFW_KEY_M])
-	{
-		
-		if (play == false)
-		{
-			
-			asignarValores();
-			resetElements();
-			//First Interpolation				
-			interpolation();
-
-			play = true;
-			playIndex = 0;
-			i_curr_steps = 0;
-		}
-		else
-		{
-			play = false;
-		}
-
-	}
-
-	if (keys[GLFW_KEY_B])
-	{
-		if (lanzar)
-		{
-			lanzar = false;
-		}
-		else {
-			lanzar = true;
-			rotCanion = 30.0f;
-			movBalaX = 0.0f;
-			movBalaY = 0.0f;
-		}
-	}
-
-	
-
-
 	if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
 	{
 		glfwSetWindowShouldClose(window, GL_TRUE);
@@ -842,6 +834,45 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 		}
 
 	}
+
+	if (keys[GLFW_KEY_M])
+	{
+
+		if (play == false)
+		{
+
+			asignarValores();
+			resetElements();
+			//First Interpolation				
+			interpolation();
+
+			play = true;
+			playIndex = 0;
+			i_curr_steps = 0;
+		}
+		else
+		{
+			play = false;
+		}
+
+	}
+
+	if (keys[GLFW_KEY_B])
+	{
+		if (lanzar)
+		{
+			lanzar = false;
+		}
+		else {
+			lanzar = true;
+			//rotCanion = -30;
+			movBalaX = 0.0f;
+			movBalaY = 0.0f;
+		}
+	}
+
+	
+
 }
 
 void MouseCallback(GLFWwindow *window, double xPos, double yPos)
