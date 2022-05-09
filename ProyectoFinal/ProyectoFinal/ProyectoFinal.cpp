@@ -37,7 +37,7 @@ const GLuint WIDTH = 800, HEIGHT = 600;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
 
 // Camera
-Camera  camera(glm::vec3(30.0f, 0.0f, -3.0f));
+Camera  camera(glm::vec3(0.0f, 0.0f, 2.0f));
 GLfloat lastX = WIDTH / 2.0;
 GLfloat lastY = HEIGHT / 2.0;
 bool keys[1024];
@@ -47,6 +47,8 @@ glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 bool active;
 bool lamparaOn = false;
 
+bool detenerMerry = false;
+
 //Animación de bala
 float movBalaX = 0.0f;
 float movBalaY = 0.0f;
@@ -55,11 +57,11 @@ float rotCanion = 0.0f;
 double vi = 20.0f;
 #define g 9.81
 
-glm::vec3 PosIni(0.0f, 0.0f, 0.0f);
+glm::vec3 PosIni(0.0f, 0.0f, 3.0f);
 
 // Keyframes
 float posX = PosIni.x, posZ = PosIni.z, rotMerry = 0;
-#define MAX_FRAMES 36
+#define MAX_FRAMES 60
 int i_max_steps = 190;
 int i_curr_steps = 0;
 
@@ -92,14 +94,36 @@ int playIndex = 0;
 
 // Positions of the point lights
 glm::vec3 pointLightPositions[] = {
-	glm::vec3(-0.401f,1.1f, 2.3f),
+	glm::vec3(0.0f,1.1f, 0.7f),
 
 };
 
-GLfloat valoresPosX[]     = { 0.0f, 0.15f, 0.3f,   0.3f,  0.15f, 0.0f,    0.0f,  0.15f, 0.3f,    0.3f,   0.15f, 0.0f,  //   
-                              2.0f,  4.0f,  8.0f,    4.0f,  2.0f,  0.0f,  0.0f, 0.15f, 0.3f,    0.3f,  0.15f, 0.0f,    0.0f, 0.15f,  0.3f,    0.3f, 0.15f, 0.0f, -2.0f,-4.0f,-8.0f,  -4.0f,-2.0f,0.0f, };
-GLfloat valoresPosZ[]     = { 0.0f,-10.0f,-20.0f,  -30.0f,-40.0f,-50.0f,  -60.0f,-70.0f,-80.0f,  -90.0f,-100.0f, -110.0f,  -120.0f,-120.0f,-120.0f,  -120.0f,-120.0f,-120.0,  -80.0f,-70.0f,-60.0f,  -50.0f,-40.0f,-30.0f,  -20.0f,-10.0f,-0.0f,  -0.0f, 0.0f,  0.0f,  0.0f,0.0f,0.0f,     0.0f,0.0f,0.0f };
-GLfloat valoresRotMerry[] = { 4.0f, 4.0f,  4.0f,  -8.0f, -8.0f, -8.0f,    4.0f,  4.0f,  4.0f,   -8.0f,  -8.0f,  0.0f,       30.0f, 60.0f, 90.0f,   120.0f,150.0f,180.0f, 176.0f, 176.0f, 176.0f,  184.0f, 184.0f,184.0f, 176.0f, 176.0f, 176.0f,  184.0f, 184.0f,180.0f,  210.0,240.0f,270.0f,  300.0f,330.0f,360.0f};
+GLfloat valoresPosX[]     = { 0.0f, 0.15f, 0.3f,   0.3f,  0.15f, 0.0f,    0.0f,  0.15f, 0.3f,    0.3f,  0.15f, 0.0f,  //   
+							  2.0f,  4.0f,  2.0f,  2.0f,  4.0f,  2.0f,    2.0f,  4.0f,  2.0f,    2.0f,  4.0f,  2.0f,
+							  0.0f, 10.0f, 20.0f,  30.0f, 40.0f, 50.0f,   60.0f, 70.0f, 80.0f,   90.0f, 100.0f, 110.0f,  //Movimiento hacia la derecha
+	                            
+	                          
+	                          4.0f,  2.0f,  0.0f,  0.0f, 0.15f, 0.3f,    0.3f,  0.15f, 0.0f,    0.0f, 0.15f,  0.3f,    0.3f, 0.15f, 0.0f, -2.0f,-4.0f,-8.0f,  -4.0f,-2.0f,0.0f, };
+
+GLfloat valoresPosZ[]     = { 0.0f, 10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70.0f, 80.0f, 90.0f, 100.0f, 110.0f,  //Movimiento hacia adelante
+							  110.0f, 110.0f, 110.0f,  //Se mantiene en la posición z = 110 mientras gira a la derecha
+	                          110.0f, 109.85, 109.7, 109.7, 109.85, 110.0f,  110.0f, 109.85, 109.7,109.7, 109.85, 110.0f, 
+							  110.0f, 110.0f, 110.0f,  //Se mantiene en la posición z = 110 mientras gira a la derecha
+	                          110.0f, 100.0f, 90.0f, 80.0f, 70.0f, 60.0f, 50.0f, 40.0f, 30.0f, 20.0f, 10.0f, 0.0f,  //Movimiento hacia atrás
+							  0.0f, 0.0f,  0.0f,  //Se mantiene en la posición z = 0 mientras gira a la derecha
+							  0.0f, 0.15f, 0.3f,   0.3f,  0.15f, 0.0f,    0.0f,  0.15f, 0.3f,    0.3f,  0.15f, 0.0f,
+							  0.0f, 0.0f,  0.0f  //Se mantiene en la posición z = 0 mientras gira a la derecha
+                            };
+
+GLfloat valoresRotMerry[] = { 4.0f, 4.0f,  4.0f,  -8.0f, -8.0f, -8.0f,  4.0f,  4.0f,  4.0f,  -8.0f, -8.0f,  0.0f,    //Rotación ligera mientras avanza hacia adelante
+                              -30.0f, -60.0f, -90.0f,   //Giro hacia la derecha
+							  -94.0f, -94.0f,  -94.0f, -90.0f, -90.0f, -90.0f,  -84.0f,  -84.0f,  -84.0f,  -90.0f, -90.0f,  -90.0f,    //Rotación ligera mientras avanza hacia la derecha
+                              -120.0f, -150.0f, -180.0f,  //Giro hacia la derecha
+	                          -184.0f, -184.0f, 184.0f,  -180.0f, -180.0f, -180.0f,  -184.0f, -184.0f, 184.0f,  -180.0f, -180.0f, -180.0f, //Rotación ligera mientras avanza hacia atrás
+							  -210.0f, -240.0f, -270.0f,  //Giro hacia la derecha
+	                          -274.0f, -274.0f, -274.0f,  -270.0f, -270.0f, -270.0f, -274.0f, -274.0f, -274.0f,  -270.0f, -270.0f, -270.0f, //Rotación ligera mientras avanza hacia la izquierda
+							  -300.0f, -330.0f, -360.0f,  //Giro hacia la derecha
+							 };
 
 void asignarValores(void)
 {
@@ -136,6 +160,7 @@ GLfloat lastFrame = 0.0f;  	// Time of last frame
 float rotPuerta = 0.0f;
 bool puertaAbierta = false;
 float tiempo;
+float tiempo2 = glfwGetTime();;
 
 
 int main()
@@ -202,7 +227,6 @@ int main()
 	Model merry((char*)"Models/Merry/GoingMerry/merry.obj");
 	Model bandera_n1((char*)"Models/Merry/GoingMerry/banderas/bandera_negra1.obj");
 	Model bandera_n2((char*)"Models/Merry/GoingMerry/banderas/bandera_negra2.obj");
-	Model cola_merry((char*)"Models/Merry/GoingMerry/cola/cola_merry.obj");
 	Model bandera_bicolor((char*)"Models/Merry/GoingMerry/banderas/bicolor/bandera_bicolor.obj");
 	Model bandera_grande((char*)"Models/Merry/GoingMerry/banderas/grande/bandera_grande.obj");
 	Model bala((char*)"Models/Merry/GoingMerry/bala/bala.obj");
@@ -452,6 +476,8 @@ int main()
 		// Set material properties
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 32.0f);  //Brillo del objeto
 
+		tiempo = glfwGetTime();
+
 		// Create camera transformations
 		glm::mat4 view;
 		view = camera.GetViewMatrix();
@@ -465,21 +491,6 @@ int main()
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-		//glm::mat4 model(1);
-
-		//Carga de modelo 
-        //view = camera.GetViewMatrix();	
-	
-		//model = glm::mat4(1);
-		//model = glm::translate(model, glm::vec3(0.0f, -8.0f, -35.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
-
-		/*model = glm::translate(model, glm::vec3(0.0f, -5.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
-		mar.Draw(lightingShader);*/
-
 		glBindVertexArray(VAO);
 		glm::mat4 tmp = glm::mat4(1.0f); //Temp
 
@@ -487,7 +498,8 @@ int main()
 		//Personaje
 		view = camera.GetViewMatrix();
 		glm::mat4 model(1);
-		model = glm::translate(model, glm::vec3(sin(2*tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -502,14 +514,14 @@ int main()
 		//Cañón y bala
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(movBalaX, movBalaY, 0.0f));
-		model = glm::translate(model, glm::vec3(sin(2*tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		bala.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(2 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		model = glm::rotate(model, glm::radians(rotCanion), glm::vec3(0.0f, 0.0f, 1.0));
 		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
@@ -517,7 +529,7 @@ int main()
 
 		//Movimiento de puerta
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(2 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -528,7 +540,7 @@ int main()
 		glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(2 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0);
@@ -536,7 +548,7 @@ int main()
 		vidrios_ventanas.Draw(lightingShader);
 
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(2 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5*tiempo), 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
 	
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
@@ -547,16 +559,8 @@ int main()
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
 
 
-		//view = camera.GetViewMatrix();
-		//model = glm::translate(tmp, glm::vec3(-0.3f, -4.0f, 9.0f));
-		//model = glm::translate(model, glm::vec3(sin(tiempo), posY2, posZ2));
-		////glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//cola_merry.Draw(lightingShader);
-
 		Anim.Use();
 
-		tiempo = glfwGetTime();
 		modelLoc = glGetUniformLocation(Anim.Program, "model");
 		viewLoc = glGetUniformLocation(Anim.Program, "view");
 		projLoc = glGetUniformLocation(Anim.Program, "projection");
@@ -575,7 +579,7 @@ int main()
 
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 2);
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(2 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -584,7 +588,7 @@ int main()
 
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 3);
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(2 * tiempo), 0.0f, posZ));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -604,10 +608,11 @@ int main()
 		// Set matrices
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-		model = glm::mat4(1);
-		model = glm::translate(tmp, pointLightPositions[0]);
+		tmp = model = glm::mat4(1);
+		model = glm::translate(model, pointLightPositions[0]);
 		model = glm::scale(model, glm::vec3(0.05f)); // Make it a smaller cube
-		model = glm::translate(model, glm::vec3(sin(2 * tiempo), 0.0f, posZ));
+		//pointLightPositions[0] = glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f);
+		//pointLightPositions[0] = glm::vec3(posX, 0.0f, posZ);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		
 		glBindVertexArray(VAO);
@@ -660,7 +665,6 @@ void animacion()
 			playIndex++;
 			if (playIndex > FrameIndex - 2)	//end of total animation?
 			{
-				printf("termina anim\n");
 				playIndex = 0;
 				play = false;
 			}
@@ -748,8 +752,7 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 		if (play == false)
 		{
 			
-				asignarValores();
-			
+			asignarValores();
 			resetElements();
 			//First Interpolation				
 			interpolation();
@@ -778,6 +781,9 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 			movBalaY = 0.0f;
 		}
 	}
+
+	
+
 
 	if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
 	{

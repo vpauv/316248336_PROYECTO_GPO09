@@ -1,31 +1,25 @@
-newmtl initialShadingGroup
-illum 4
-Kd 0.50 0.50 0.50
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-Ni 1.00
-newmtl lambert2SG
+newmtl lounge_lambert2SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd piedra3.jpg
 Ni 1.00
-newmtl lambert3SG
+newmtl lounge_lambert3SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd piso_piedras.jpg
 Ni 1.00
-newmtl lambert4SG
+newmtl lounge_lambert4SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd techo_interior.jpg
 Ni 1.00
-newmtl lambert6SG
+newmtl lounge_lambert6SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -33,7 +27,7 @@ Tf 1.00 1.00 1.00
 map_Kd pared_madera.jpg
 bump  -bm 1 pared_madera_normal.jpg
 Ni 1.00
-newmtl lambert6SG2
+newmtl lounge_lambert6SG2
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -41,35 +35,35 @@ Tf 1.00 1.00 1.00
 map_Kd pared_madera.jpg
 bump  -bm 1 pared_madera_normal.jpg
 Ni 1.00
-newmtl lambert7SG
+newmtl lounge_lambert7SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd pared_arriba.jpg
 Ni 1.00
-newmtl lambert7SG2
+newmtl lounge_lambert7SG2
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd pared_arriba.jpg
 Ni 1.00
-newmtl lambert8SG
+newmtl lounge_lambert8SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd cafe.jpg
 Ni 1.00
-newmtl lambert10SG
+newmtl lounge_lambert10SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd piso_madera2.jpg
 Ni 1.00
-newmtl lambert11SG
+newmtl lounge_lambert11SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -77,27 +71,27 @@ Tf 1.00 1.00 1.00
 map_Kd madera.jpg
 bump  -bm 1 madera_normal.jpg
 Ni 1.00
-newmtl lambert12SG
+newmtl lounge_lambert12SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd madera2.jpg
 Ni 1.00
-newmtl lambert14SG
+newmtl lounge_lambert14SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd lampara.jpg
 Ni 1.00
-newmtl lounge_initialShadingGroup
+newmtl lounge_lounge_initialShadingGroup
 illum 4
 Kd 0.50 0.50 0.50
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 Ni 1.00
-newmtl phong1SG
+newmtl lounge_phong1SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -107,7 +101,7 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks plata_s_puerta.jpg
 Ns 18.00
-newmtl phong2SG
+newmtl lounge_phong2SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -117,7 +111,7 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks metal_placa_s.jpg
 Ns 18.00
-newmtl phong3SG
+newmtl lounge_phong3SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -127,7 +121,7 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks metal_lampara_s.jpg
 Ns 18.00
-newmtl phongE1SG
+newmtl lounge_phongE1SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00

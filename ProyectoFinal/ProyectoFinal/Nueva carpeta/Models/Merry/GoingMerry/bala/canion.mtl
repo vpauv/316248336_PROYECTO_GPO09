@@ -1,0 +1,30 @@
+newmtl merry4_phong1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks metal_s.jpg
+Ns 18.00
+newmtl merry4_phong2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd cobre.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks cobre_s.jpg
+Ns 18.00
+newmtl phong1SG2
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_claro.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks metal_claro_s.jpg
+Ns 18.00

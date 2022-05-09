@@ -1,0 +1,27 @@
+newmtl refri_completo_lambert3SG3
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refri_textura2.jpg
+Ni 1.00
+newmtl refri_completo_phong1SG1
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd aluminio.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks aluminio_s.jpg
+Ns 18.00
+newmtl refri_completo_phong2SG1
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd gold.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks gold_s.jpg
+Ns 18.00

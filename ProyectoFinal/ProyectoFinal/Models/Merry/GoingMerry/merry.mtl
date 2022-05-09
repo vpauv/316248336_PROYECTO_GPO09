@@ -1,94 +1,25 @@
-newmtl lambert5SG2
+newmtl bandera_grande_merry4_lambert4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd cafe.jpg
+Ni 1.00
+newmtl cola_merry_lambert5SG2
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd madera_oscuro.jpg
 Ni 1.00
-newmtl lambert15SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd negro.jpg
-Ni 1.00
-newmtl merry4_initialShadingGroup
-illum 4
-Kd 0.50 0.50 0.50
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-Ni 1.00
-newmtl merry4_lambert5SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd blanco.jpg
-Ni 1.00
-newmtl merry4_lambert6SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd piso_madera.jpg
-Ni 1.00
-newmtl merry4_lambert7SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd cara.jpg
-Ni 1.00
-newmtl merry4_lambert8SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd arbol.jpg
-Ni 1.00
-newmtl merry4_lambert9SG
+newmtl cola_merry_merry4_lambert9SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd cafe2.jpg
 Ni 1.00
-newmtl merry4_lambert10SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd madera_claro2.jpg
-Ni 1.00
-newmtl merry4_lambert11SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd cuerno_madera.jpg
-Ni 1.00
-newmtl merry4_lambert13SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd ventana_azul.jpg
-Ni 1.00
-newmtl merry4_lambert14SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd pared_madera.jpg
-Ni 1.00
-newmtl merry4_pasted__lambert3SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd madera_claro.jpg
-Ni 1.00
-newmtl merry4_phong1SG
+newmtl cola_merry_merry4_phong1SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -98,7 +29,107 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks metal_s.jpg
 Ns 18.00
-newmtl merry4_phong2SG
+newmtl merry_lambert5SG2
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd madera_oscuro.jpg
+Ni 1.00
+newmtl merry_lambert15SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd negro.jpg
+Ni 1.00
+newmtl merry_merry4_initialShadingGroup
+illum 4
+Kd 0.50 0.50 0.50
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl merry_merry4_lambert5SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd blanco.jpg
+Ni 1.00
+newmtl merry_merry4_lambert6SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd piso_madera.jpg
+Ni 1.00
+newmtl merry_merry4_lambert7SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd cara.jpg
+Ni 1.00
+newmtl merry_merry4_lambert8SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd arbol.jpg
+Ni 1.00
+newmtl merry_merry4_lambert9SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd cafe2.jpg
+Ni 1.00
+newmtl merry_merry4_lambert10SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd madera_claro2.jpg
+Ni 1.00
+newmtl merry_merry4_lambert11SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd cuerno_madera.jpg
+Ni 1.00
+newmtl merry_merry4_lambert13SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd ventana_azul.jpg
+Ni 1.00
+newmtl merry_merry4_lambert14SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd pared_madera.jpg
+Ni 1.00
+newmtl merry_merry4_pasted__lambert3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd madera_claro.jpg
+Ni 1.00
+newmtl merry_merry4_phong1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks metal_s.jpg
+Ns 18.00
+newmtl merry_merry4_phong2SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -108,7 +139,7 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks cobre_s.jpg
 Ns 18.00
-newmtl merry4_phongE1SG
+newmtl merry_merry4_phongE1SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -118,14 +149,14 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks dorado_s_marco.jpg
 Ns 0.06
-newmtl merry_merry4_lambert4SG
+newmtl merry_merry_merry4_lambert4SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd cafe.jpg
 Ni 1.00
-newmtl phong1SG2
+newmtl merry_phong1SG2
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -135,20 +166,20 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks metal_claro_s.jpg
 Ns 18.00
-newmtl puerta_initialShadingGroup
+newmtl merry_puerta_initialShadingGroup
 illum 4
 Kd 0.50 0.50 0.50
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 Ni 1.00
-newmtl puerta_lambert13SG
+newmtl merry_puerta_lambert13SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd ventana_azul.jpg
 Ni 1.00
-newmtl puerta_phong1SG
+newmtl merry_puerta_phong1SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
@@ -158,7 +189,7 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks plata_s_puerta.jpg
 Ns 18.00
-newmtl puerta_phongE1SG
+newmtl merry_puerta_phongE1SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
