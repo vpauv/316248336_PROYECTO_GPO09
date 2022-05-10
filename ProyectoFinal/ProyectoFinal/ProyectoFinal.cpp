@@ -37,20 +37,19 @@ const GLuint WIDTH = 800, HEIGHT = 600;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
 
 // Camera
-Camera  camera(glm::vec3(0.0f, 0.0f, 2.0f));
+Camera  camera(glm::vec3(0.0f, 0.0f, 1.0f));
 GLfloat lastX = WIDTH / 2.0;
 GLfloat lastY = HEIGHT / 2.0;
 bool keys[1024];
 bool firstMouse = true;
 // Light attributes
-glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+//glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 bool active;
 bool lamparaOn = false;
 
 bool detenerMerry = false;
 
 //Animación de bala
-glm::mat4 tmp2 = glm::mat4(1.0f);
 float movBalaX = 0.0f;
 float movBalaY = 0.0f;
 bool lanzar = false;
@@ -94,10 +93,8 @@ bool play = false;
 int playIndex = 0;
 
 // Positions of the point lights
-glm::vec3 pointLightPositions[] = {
-	glm::vec3(0.0f,1.1f, 0.7f),
+glm::vec3 pointLightPosition(0.0f,0.8f, -2.5f);
 
-};
 
 GLfloat valoresPosX[]     = { 0.0f, 0.15f, 0.3f,   0.3f,  0.15f, 0.0f,    0.0f,  0.15f, 0.3f,    0.3f,  0.15f, 0.0f,  //   
 							  0.0f,  0.0f,  0.0f,
@@ -119,7 +116,7 @@ GLfloat valoresPosZ[]     = { 0.0f, 10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70
 							  0.0f, 0.0f,  0.0f  //Se mantiene en la posición z = 0 mientras gira a la derecha
                             };
 
-GLfloat valoresRotMerry[] = { 4.0f, 4.0f,  4.0f,  -8.0f, -8.0f, -8.0f,  4.0f,  4.0f,  4.0f,  -8.0f, -8.0f,  0.0f,    //Rotación ligera mientras avanza hacia adelante
+GLfloat valoresRotMerry[] = { 4.0f, 4.0f,  4.0f,  -8.0f, -8.0f, -8.0f,  4.0f,  4.0f,  4.0f,  -8.0f, -8.0f,  -8.0f,    //Rotación ligera mientras avanza hacia adelante
                               -30.0f, -60.0f, -90.0f,   //Giro hacia la derecha
 							  -94.0f, -94.0f,  -94.0f, -90.0f, -90.0f, -90.0f,  -84.0f,  -84.0f,  -84.0f,  -90.0f, -90.0f,  -90.0f,    //Rotación ligera mientras avanza hacia la derecha
                               -120.0f, -150.0f, -180.0f,  //Giro hacia la derecha
@@ -406,19 +403,19 @@ int main()
 
 	// Load textures
 	vector<const GLchar*> faces;
-	faces.push_back("SkyBox/right.tga");
+	/*faces.push_back("SkyBox/right.tga");
 	faces.push_back("SkyBox/left.tga");
 	faces.push_back("SkyBox/top.tga");
 	faces.push_back("SkyBox/bottom.tga");
 	faces.push_back("SkyBox/back.tga");
-	faces.push_back("SkyBox/front.tga");
+	faces.push_back("SkyBox/front.tga");*/
 
-	/*faces.push_back("SkyBox/1/right.tga");
+	faces.push_back("SkyBox/1/right.tga");
 	faces.push_back("SkyBox/1/left.tga");
 	faces.push_back("SkyBox/1/top.tga");
 	faces.push_back("SkyBox/1/bottom.tga");
 	faces.push_back("SkyBox/1/back.tga");
-	faces.push_back("SkyBox/1/front.tga");*/
+	faces.push_back("SkyBox/1/front.tga");
 
 	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
@@ -456,8 +453,8 @@ int main()
 		// Directional light
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), -0.2f, -1.0f, -0.3f);  //Direccion de la luz
 		//Iluminación del escenario (ambiental y difusa)
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"),0.3f,0.3f,0.3f);  
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.3f, 0.3f, 0.3f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"),0.5f,0.5f,0.5f);  
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.5f, 0.5f, 0.5f);
 
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"),0.0f, 0.0f, 0.0f);
 
@@ -468,7 +465,7 @@ int main()
 		lightColor.y= abs(sin(glfwGetTime() *Light1.y));
 		lightColor.z= sin(glfwGetTime() *Light1.z);
 
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);  //Posición 0
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPosition.x, pointLightPosition.y, pointLightPosition.z);  
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), Light1.x, Light1.y, Light1.z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), Light1.x, Light1.y, Light1.z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.0f, 0.0f, 0.0f);
@@ -478,7 +475,7 @@ int main()
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].quadratic"),1.8f);
 	
 		// Set material properties
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 32.0f);  //Brillo del objeto
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 16.0f);  //Brillo del objeto
 
 		tiempo = glfwGetTime();
 
@@ -518,7 +515,7 @@ int main()
 		//Cañón y bala
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-7.0f, -2.0f, -3.5f));
-		model = glm::translate(model, glm::vec3(movBalaX, movBalaY, posZ));
+		model = glm::translate(model, glm::vec3(movBalaX, movBalaY, 0.0f));
 		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
 		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
@@ -527,7 +524,7 @@ int main()
 
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-7.3f, -2.106f, -3.6f));
-		tmp2 = model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
 		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotCanion), glm::vec3(0.0f, 0.0f, 1.0));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
@@ -579,7 +576,7 @@ int main()
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1f(glGetUniformLocation(Anim.Program, "time"), tiempo);
+		glUniform1f(glGetUniformLocation(Anim.Program, "time"), 2*tiempo);
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 1);
 
 		model = glm::mat4(1);
@@ -592,7 +589,6 @@ int main()
 		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
 		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
-		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		bandera_n1.Draw(Anim);
 		bandera_n2.Draw(Anim);
@@ -602,7 +598,6 @@ int main()
 		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
 		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
-		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		bandera_bicolor.Draw(Anim);
 		bandera_grande.Draw(Anim);
@@ -617,16 +612,15 @@ int main()
 		viewLoc = glGetUniformLocation(lampShader.Program, "view");
 		projLoc = glGetUniformLocation(lampShader.Program, "projection");
 
+		//pointLightPosition = glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f);
+		//pointLightPosition = glm::vec3(posX, 0.0f, posZ);
 		// Set matrices
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		tmp = model = glm::mat4(1);
-		model = glm::translate(model, pointLightPositions[0]);
 		model = glm::scale(model, glm::vec3(0.05f)); // Make it a smaller cube
-		//pointLightPositions[0] = glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f);
-		//pointLightPositions[0] = glm::vec3(posX, 0.0f, posZ);
+		model = glm::translate(model, pointLightPosition);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		
@@ -708,12 +702,14 @@ void lanzamiento() {
 		if(movBalaY > -5){
 			
 		movBalaY = tan(ang) * movBalaX - (g / (2*vi*vi *cos(ang)*cos(ang)))* movBalaX* movBalaX;
-	    //if()
+	 
 		movBalaX -= 0.05f;
 
 		}
 		else {
 			rotCanion = 0.0f;
+			movBalaX = 0.0f;
+			movBalaY = 0.0f;
 			lanzar = false;
 		}
 	}
@@ -865,7 +861,6 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 		}
 		else {
 			lanzar = true;
-			//rotCanion = -30;
 			movBalaX = 0.0f;
 			movBalaY = 0.0f;
 		}
