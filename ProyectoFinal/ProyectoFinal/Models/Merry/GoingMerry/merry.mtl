@@ -112,13 +112,6 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd pared_madera.jpg
 Ni 1.00
-newmtl merry_merry4_pasted__lambert3SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd madera_claro.jpg
-Ni 1.00
 newmtl merry_merry4_phong1SG
 illum 4
 Kd 0.00 0.00 0.00
