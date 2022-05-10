@@ -37,7 +37,7 @@ const GLuint WIDTH = 800, HEIGHT = 600;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
 
 // Camera
-Camera  camera(glm::vec3(0.0f, 0.0f, 1.0f));
+Camera  camera(glm::vec3(0.0f, 0.0f, 130.0f));
 GLfloat lastX = WIDTH / 2.0;
 GLfloat lastY = HEIGHT / 2.0;
 bool keys[1024];
@@ -52,6 +52,7 @@ bool detenerMerry = false;
 //Animación de bala
 float movBalaX = 0.0f;
 float movBalaY = 0.0f;
+float movBalaZ = 0.0f;
 bool lanzar = false;
 float rotCanion = 0.0f;
 double vi = 20.0f;
@@ -93,16 +94,18 @@ bool play = false;
 int playIndex = 0;
 
 // Positions of the point lights
-glm::vec3 pointLightPosition(0.0f,0.8f, -2.5f);
+glm::vec3 pointLightPosIni(0.4f,1.1f, -2.3f);
+glm::vec3 pointLightPos(0.4f, 1.1f, -2.3f);
+//glm::vec3 pointLightPos(0.0f, 0.8f, -2.5f);
 
 
 GLfloat valoresPosX[]     = { 0.0f, 0.15f, 0.3f,   0.3f,  0.15f, 0.0f,    0.0f,  0.15f, 0.3f,    0.3f,  0.15f, 0.0f,  //   
 							  0.0f,  0.0f,  0.0f,
-							  0.0f, -10.0f, -20.0f,  -30.0f, -40.0f, -50.0f,   -60.0f, -70.0f, -80.0f,   -90.0f, -100.0f, -110.0f,  //Movimiento hacia la derecha
-							  -110.0f, -110.0f, -110.0f,  //Se mantiene en la posición x = 110 mientras gira a la derecha
-							  -110.0f, -109.85, -109.7, -109.7, -109.85, -110.0f,  -110.0f, -109.85, -109.7, -109.7, -109.85, -110.0f,
-							  -110.0f, -110.0f, -110.0f,  //Se mantiene en la posición x = 110 mientras gira a la derecha
-	                          -110.0f, -100.0f, -90.0f, -80.0f, -70.0f, -60.0f, -50.0f, -40.0f, -30.0f, -20.0f, -10.0f, 0.0f,  //Movimiento hacia la izquierda
+							  0.0f, 10.0f, 20.0f,  30.0f, 40.0f, 50.0f,   60.0f, 70.0f, 80.0f,   90.0f, 100.0f, 110.0f,  //Movimiento hacia la derecha
+							  110.0f, 110.0f, 110.0f,  //Se mantiene en la posición x = 110 mientras gira a la derecha
+							  110.0f, 109.85, 109.7, 109.7, 109.85, 110.0f,  110.0f, 109.85, 109.7, 109.7, 109.85, 110.0f,
+							  110.0f, 110.0f, 110.0f,  //Se mantiene en la posición x = 110 mientras gira a la derecha
+	                          110.0f, 100.0f, 90.0f, 80.0f, 70.0f, 60.0f, 50.0f, 40.0f, 30.0f, 20.0f, 10.0f, 0.0f,  //Movimiento hacia la izquierda
 							  0.0f,  0.0f,  0.0f,
                             };
 
@@ -117,13 +120,13 @@ GLfloat valoresPosZ[]     = { 0.0f, 10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70
                             };
 
 GLfloat valoresRotMerry[] = { 4.0f, 4.0f,  4.0f,  -8.0f, -8.0f, -8.0f,  4.0f,  4.0f,  4.0f,  -8.0f, -8.0f,  -8.0f,    //Rotación ligera mientras avanza hacia adelante
-                              -30.0f, -60.0f, -90.0f,   //Giro hacia la derecha
-							  -94.0f, -94.0f,  -94.0f, -90.0f, -90.0f, -90.0f,  -84.0f,  -84.0f,  -84.0f,  -90.0f, -90.0f,  -90.0f,    //Rotación ligera mientras avanza hacia la derecha
-                              -120.0f, -150.0f, -180.0f,  //Giro hacia la derecha
-	                          -184.0f, -184.0f, -184.0f,  -180.0f, -180.0f, -180.0f,  -184.0f, -184.0f, -184.0f,  -180.0f, -180.0f, -180.0f, //Rotación ligera mientras avanza hacia atrás
-							  -210.0f, -240.0f, -270.0f,  //Giro hacia la derecha
-	                          -274.0f, -274.0f, -274.0f,  -270.0f, -270.0f, -270.0f, -274.0f, -274.0f, -274.0f,  -270.0f, -270.0f, -270.0f, //Rotación ligera mientras avanza hacia la izquierda
-							  -300.0f, -330.0f, -360.0f,  //Giro hacia la derecha
+                              30.0f, 60.0f, 90.0f,   //Giro hacia la derecha
+							  94.0f, 94.0f,  94.0f, 86.0f, 86.0f, 86.0f,  94.0f,  94.0f,  94.0f,  86.0f, 86.0f,  90.0f,    //Rotación ligera mientras avanza hacia la derecha
+                              120.0f, 150.0f, 180.0f,  //Giro hacia la derecha
+	                          184.0f, 184.0f, 184.0f,  176.0f, 176.0f, 176.0f,  184.0f, 184.0f, 184.0f,  176.0f, 176.0f, 180.0f, //Rotación ligera mientras avanza hacia atrás
+							  210.0f, 240.0f, 270.0f,  //Giro hacia la derecha
+	                          274.0f, 274.0f, 274.0f,  266.0f, 266.0f, 266.0f, 274.0f, 274.0f, 274.0f,  276.0f, 276.0f, 300.0f, //Rotación ligera mientras avanza hacia la izquierda
+							  300.0f, 330.0f, 360.0f,  //Giro hacia la derecha
 							 };
 
 void asignarValores(void)
@@ -161,7 +164,6 @@ GLfloat lastFrame = 0.0f;  	// Time of last frame
 float rotPuerta = 0.0f;
 bool puertaAbierta = false;
 float tiempo;
-float tiempo2 = glfwGetTime();;
 
 
 int main()
@@ -403,19 +405,12 @@ int main()
 
 	// Load textures
 	vector<const GLchar*> faces;
-	/*faces.push_back("SkyBox/right.tga");
+	faces.push_back("SkyBox/right.tga");
 	faces.push_back("SkyBox/left.tga");
 	faces.push_back("SkyBox/top.tga");
 	faces.push_back("SkyBox/bottom.tga");
 	faces.push_back("SkyBox/back.tga");
-	faces.push_back("SkyBox/front.tga");*/
-
-	faces.push_back("SkyBox/1/right.tga");
-	faces.push_back("SkyBox/1/left.tga");
-	faces.push_back("SkyBox/1/top.tga");
-	faces.push_back("SkyBox/1/bottom.tga");
-	faces.push_back("SkyBox/1/back.tga");
-	faces.push_back("SkyBox/1/front.tga");
+	faces.push_back("SkyBox/front.tga");
 
 	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
@@ -443,12 +438,10 @@ int main()
 		// OpenGL options
 		glEnable(GL_DEPTH_TEST);
 
-		
 		// Use cooresponding shader when setting uniforms/drawing objects
 		lightingShader.Use();
 		GLint viewPosLoc = glGetUniformLocation(lightingShader.Program, "viewPos");
 		glUniform3f(viewPosLoc, camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
-
 
 		// Directional light
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), -0.2f, -1.0f, -0.3f);  //Direccion de la luz
@@ -458,14 +451,13 @@ int main()
 
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"),0.0f, 0.0f, 0.0f);
 
-
-		// Point light 1
+		// Point light 
 	    glm::vec3 lightColor;
 		lightColor.x= abs(sin(glfwGetTime() *Light1.x));
 		lightColor.y= abs(sin(glfwGetTime() *Light1.y));
 		lightColor.z= sin(glfwGetTime() *Light1.z);
 
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPosition.x, pointLightPosition.y, pointLightPosition.z);  
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPos.x, pointLightPos.y, pointLightPos.z);  
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), Light1.x, Light1.y, Light1.z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), Light1.x, Light1.y, Light1.z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.0f, 0.0f, 0.0f);
@@ -493,17 +485,15 @@ int main()
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 		glBindVertexArray(VAO);
-		glm::mat4 tmp = glm::mat4(1.0f); //Temp
+		glm::mat4 tmp, tmp2, tmp3 = glm::mat4(1.0f); //Temp
 
 		//Carga de modelo 
-		//Personaje
-		view = camera.GetViewMatrix();
+		//view = camera.GetViewMatrix();
 		glm::mat4 model(1);
 		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
+		tmp = model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
-		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		miniMerry.Draw(lightingShader);
 		refrigerador.Draw(lightingShader);
 		mesa.Draw(lightingShader);
@@ -514,21 +504,23 @@ int main()
 
 		//Cañón y bala
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-7.0f, -2.0f, -3.5f));
-		model = glm::translate(model, glm::vec3(movBalaX, movBalaY, 0.0f));
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
+		tmp2 = model = glm::translate(model, glm::vec3(-7.0f, -2.0f, -3.5f));
+		model = glm::translate(tmp, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
 		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
-		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		tmp2 = model = glm::rotate(tmp, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
+		model = glm::translate(tmp2, glm::vec3(-7.0f, -2.0f, -3.5f));
+		model = glm::translate(model, glm::vec3(movBalaX, movBalaY, movBalaZ));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		bala.Draw(lightingShader);
 
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(-7.3f, -2.106f, -3.6f));
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
+		model = glm::translate(tmp, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ));
 		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));
+		tmp3 = model = glm::rotate(tmp, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
+		model = glm::translate(tmp3, glm::vec3(-7.3f, -2.106f, -3.6f));
 		model = glm::rotate(model, glm::radians(rotCanion), glm::vec3(0.0f, 0.0f, 1.0));
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
-		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		canion.Draw(lightingShader);
 
 		//Movimiento de puerta
@@ -538,7 +530,6 @@ int main()
 		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 		puerta.Draw(lightingShader);
 
 		//OBJETOS CON TRANSPARENCIA
@@ -565,7 +556,6 @@ int main()
 		glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0);
 
-
 		Anim.Use();
 
 		modelLoc = glGetUniformLocation(Anim.Program, "model");
@@ -579,11 +569,13 @@ int main()
 		glUniform1f(glGetUniformLocation(Anim.Program, "time"), 2*tiempo);
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 1);
 
+		//MAR
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(0.0f, -5.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		mar.Draw(Anim);
 
+		//BANDERAS NEGRAS
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 2);
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
@@ -593,6 +585,7 @@ int main()
 		bandera_n1.Draw(Anim);
 		bandera_n2.Draw(Anim);
 
+		//BANDERA GRANDE Y BANDERA BICOLOR
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 3);
 		model = glm::mat4(1);
 		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));
@@ -612,18 +605,20 @@ int main()
 		viewLoc = glGetUniformLocation(lampShader.Program, "view");
 		projLoc = glGetUniformLocation(lampShader.Program, "projection");
 
-		//pointLightPosition = glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f);
-		//pointLightPosition = glm::vec3(posX, 0.0f, posZ);
+		pointLightPos = glm::vec3(pointLightPosIni.x + sin(0.5 * tiempo), pointLightPosIni.y, pointLightPosIni.z + posZ);
+		//pointLightPos = glm::vec3(pointLightPosIni.x + posX, pointLightPosIni.y, pointLightPosIni.z + posZ);
 		// Set matrices
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		tmp = model = glm::mat4(1);
+		model = glm::translate(model, pointLightPos);
+
 		model = glm::scale(model, glm::vec3(0.05f)); // Make it a smaller cube
-		model = glm::translate(model, pointLightPosition);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		
+
 		glBindVertexArray(0);
 
 
@@ -673,6 +668,7 @@ void animacion()
 			{
 				playIndex = 0;
 				play = false;
+				resetElements();
 			}
 			else //Next frame interpolations
 			{
@@ -700,17 +696,30 @@ void lanzamiento() {
 		double ang = glm::radians(rotCanion);
 
 		if(movBalaY > -5){
-			
-		movBalaY = tan(ang) * movBalaX - (g / (2*vi*vi *cos(ang)*cos(ang)))* movBalaX* movBalaX;
-	 
-		movBalaX -= 0.05f;
-
+			if (rotMerry >= -8 && rotMerry < 95) {
+				movBalaY = tan(ang) * movBalaX - (g / (2 * vi * vi * cos(ang) * cos(ang))) * movBalaX * movBalaX;
+				movBalaX -= 0.05f;
+			}
+			if (rotMerry >= 95 && rotMerry < 185) {
+				movBalaY = tan(ang) * movBalaZ - (g / (2 * vi * vi * cos(ang) * cos(ang))) * movBalaZ * movBalaZ;
+				movBalaZ += 0.05f;
+		    }
+			if (rotMerry >= 185 && rotMerry < 275) {
+				movBalaY = tan(ang) * movBalaX - (g / (2 * vi * vi * cos(ang) * cos(ang))) * movBalaX * movBalaX;
+				movBalaX += 0.05f;
+			}
+			if (rotMerry >= 275 && rotMerry < 360) {
+				movBalaY = tan(ang) * movBalaZ - (g / (2 * vi * vi * cos(ang) * cos(ang))) * movBalaZ * movBalaZ;
+				movBalaZ -= 0.05f;
+			}
+				
 		}
 		else {
-			rotCanion = 0.0f;
-			movBalaX = 0.0f;
-			movBalaY = 0.0f;
-			lanzar = false;
+				rotCanion = 0.0f;
+				movBalaX = 0.0f;
+				movBalaY = 0.0f;
+				movBalaZ = 0.0f;
+	     		lanzar = false;
 		}
 	}
 }
@@ -855,19 +864,11 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 
 	if (keys[GLFW_KEY_B])
 	{
-		if (lanzar)
+		if (lanzar == false)
 		{
-			lanzar = false;
-		}
-		else {
 			lanzar = true;
-			movBalaX = 0.0f;
-			movBalaY = 0.0f;
 		}
 	}
-
-	
-
 }
 
 void MouseCallback(GLFWwindow *window, double xPos, double yPos)
