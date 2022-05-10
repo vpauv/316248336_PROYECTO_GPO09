@@ -690,12 +690,16 @@ void animacion()
 	}
 }
 
+//Función para generar el movimiento parabólico de la bala
 void lanzamiento() {
+
 	if (lanzar) {
 
 		double ang = glm::radians(rotCanion);
 
+
 		if(movBalaY > -5){
+			//Dependiendo de la posición del barco, la bala se moverá en diferentes ejes X o Z
 			if (rotMerry >= -8 && rotMerry < 95) {
 				movBalaY = tan(ang) * movBalaX - (g / (2 * vi * vi * cos(ang) * cos(ang))) * movBalaX * movBalaX;
 				movBalaX -= 0.05f;
