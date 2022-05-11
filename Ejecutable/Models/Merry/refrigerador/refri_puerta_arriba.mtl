@@ -1,0 +1,108 @@
+newmtl initialShadingGroup
+illum 4
+Kd 0.50 0.50 0.50
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd gris_metalico.jpg
+Ni 1.00
+newmtl lambert3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refri_textura2.jpg
+bump  -bm 1 refri_normal.jpg
+Ni 1.00
+newmtl lambert4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd TexturesCom_Metal_FineGold_512_albedo.tif
+Ni 1.00
+newmtl pasted__lambert3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refrigerator_texture.jpg
+bump  -bm 1 TexturesCom_Leather_Backside02_015x015_512_normal.tif
+Ni 1.00
+newmtl pasted__pasted__lambert3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refrigerator_texture.jpg
+bump  -bm 1 TexturesCom_Leather_Backside02_015x015_512_normal.tif
+Ni 1.00
+newmtl pasted__pasted__lambert3SG1
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refrigerator_texture.jpg
+bump  -bm 1 TexturesCom_Leather_Backside02_015x015_512_normal.tif
+Ni 1.00
+newmtl pasted__pasted__lambert3SG2
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refrigerator_texture.jpg
+bump  -bm 1 TexturesCom_Leather_Backside02_015x015_512_normal.tif
+Ni 1.00
+newmtl pasted__pasted__lambert3SG3
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refrigerator_texture.jpg
+bump  -bm 1 TexturesCom_Leather_Backside02_015x015_512_normal.tif
+Ni 1.00
+newmtl pasted__pasted__lambert3SG4
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refrigerator_texture.jpg
+bump  -bm 1 TexturesCom_Leather_Backside02_015x015_512_normal.tif
+Ni 1.00
+newmtl pasted__pasted__lambert3SG5
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refrigerator_texture.jpg
+bump  -bm 1 TexturesCom_Leather_Backside02_015x015_512_normal.tif
+Ni 1.00
+newmtl pasted__pasted__lambert3SG6
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refrigerator_texture.jpg
+bump  -bm 1 TexturesCom_Leather_Backside02_015x015_512_normal.tif
+Ni 1.00
+newmtl pasted__pasted__pasted__lambert3SG6
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refrigerator_texture.jpg
+bump  -bm 1 TexturesCom_Leather_Backside02_015x015_512_normal.tif
+Ni 1.00
+newmtl pasted__pasted__pasted__pasted__lambert3SG6
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd refrigerator_texture.jpg
+bump  -bm 1 TexturesCom_Leather_Backside02_015x015_512_normal.tif
+Ni 1.00
