@@ -226,6 +226,13 @@ int main()
 	Model bala((char*)"Models/Merry/GoingMerry/bala/bala.obj");
 	Model canion((char*)"Models/Merry/GoingMerry/bala/canion.obj");
 
+	//Inner Men's Room elements
+	Model armario((char*)"Models/Merry/armario/armario.obj");
+	Model sillon((char*)"Models/Merry/sillon/sillon.obj");
+	Model sillon2((char*)"Models/Merry/sillon/sillon2.obj");
+	Model alfombra((char*)"Models/Merry/alfombra/alfombra.obj");
+	Model mesa2((char*)"Models/Merry/mesa/mesa.obj");
+
 	//Surface model
 	Model mar((char*)"Models/mar/mar.obj");
 
@@ -486,6 +493,12 @@ int main()
 		rack_vino.Draw(lightingShader);  //Modelo rack de vino
 		merry.Draw(lightingShader);  //Modelo barco
 		lounge.Draw(lightingShader);   //Modelo Lounge
+		armario.Draw(lightingShader);   //Modelo armario
+		sillon.Draw(lightingShader);   //Modelo sillon
+		sillon2.Draw(lightingShader);   //Modelo sillon 2
+		alfombra.Draw(lightingShader);   //Modelo alfombra
+		mesa2.Draw(lightingShader);   //Modelo mesa
+
 
 		//REFRIGERATOR
 		model = glm::mat4(1);  //Clean matriz model
@@ -587,12 +600,12 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
 		// Paso de parámetros hacia el shader Anim
-		glUniform1f(glGetUniformLocation(Anim.Program, "time"), 2*tiempo); //Tiem value
+		glUniform1f(glGetUniformLocation(Anim.Program, "time"), 2*tiempo); //Time value
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 1);  //Option 1 - Sea movement 
 
 		//MAR
 		model = glm::mat4(1); //Clean matriz model
-		model = glm::translate(model, glm::vec3(0.0f, -5.0f, 0.0f));  //Sea surface translation
+		model = glm::translate(model, glm::vec3(0.0f, -7.0f, 0.0f));  //Sea surface translation
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));  //Model changes to the shader
 		mar.Draw(Anim);  //Modelo mar
 
