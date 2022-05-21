@@ -44,13 +44,13 @@ bool firstMouse = true;
 
 // Light attributes
 glm::vec3 Light1 = glm::vec3(0);  //Color
-glm::vec3 pointLightPosIni(0.4f, 1.1f, -2.3f);  //Posición inicial pointlight
-glm::vec3 pointLightPos = pointLightPosIni;  //Posición actual pointlight
+glm::vec3 pointLightPosIni(0.4f, 1.1f, -2.3f);  //Initial position - pointlight
+glm::vec3 pointLightPos = pointLightPosIni;  //Actual position - pointlight
 
-//VAriable para luz lámpara
+//Light off
 bool lamparaOn = false;
 
-//Variables movimiento de bala
+//Cannonball movement
 float movBalaX = 0.0f; //Posición x inicial de la bala
 float movBalaY = 0.0f; //Posición y inicial de la bala
 float movBalaZ = 0.0f; //Posición z inicial de la bala
@@ -59,70 +59,70 @@ float rotCanion = 0.0f;  //ángulo inicial del cañón
 double vi = 20.0f;  //velocidad inicial
 #define g 9.81  //Constante gravedad
 
-//Variables movimiento cajón
+//Drawer movement
 float movCajonZ = -0.611f;
 bool cajonAbierto = false;
 
-//Variables movimiento puerta refrigerador
+//Refrigerator door movement
 float rotPuertaRefri = 0.0f;
 bool refriAbierto = false;
 
 // Keyframes
-glm::vec3 PosIni(0.0f, 0.0f, 0.0f);
-float posX = PosIni.x, posZ = PosIni.z, rotMerry = 0;
-#define MAX_FRAMES 60 //Numero maximo de frames
-int i_max_steps = 250;  //Numero máximo de valores interpolados
-int i_curr_steps = 0; 
+glm::vec3 PosIni(0.0f, 0.0f, 0.0f);  //Initial position elemnts
+float posX = PosIni.x, posZ = PosIni.z, rotMerry = 0;  
+#define MAX_FRAMES 60 //Max number of frames
+int i_max_steps = 250;  //Max number of interpolated values
+int i_curr_steps = 0;  //Current interpolation
 
 typedef struct w
 {
-	//Variables para GUARDAR Key Frames
-	float posX;		//Variable para PosicionX
-	float posZ;		//Variable para PosicionZ
-	float incX;		//Variable para IncrementoX
-	float incZ;		//Variable para IncrementoZ
-	float rotInc;   //Variable para los incrementos de rotación por interpolación 
-	float rotMerry; //Variable para rotación del barco y sus elementos
+	//Variables to store keyframes values
+	float posX;		//X Position
+	float posZ;		//Z position
+	float incX;		//x increment
+	float incZ;		//z increment
+	float rotInc;   //Interpolated values
+	float rotMerry; //Rotation ship and elements
 }FRAME;
 
 FRAME KeyFrame[MAX_FRAMES];
 
-int FrameIndex = 0;  //Indices para el acceso a la estructura FRAME
-bool play = false;  //Desactiva animación por keyframes
+int FrameIndex = 0;  //Index to access frame
+bool play = false;  //Keyframes animation off
 int playIndex = 0;  //
 
-//Valores definidos para cada Frame 
+//Pre defined frame values
 GLfloat valoresPosX[]     = { 0.0f, 0.15f, 0.3f,   0.3f,  0.15f, 0.0f,    0.0f,  0.15f, 0.3f,    0.3f,  0.15f, 0.0f,  //   
-							  0.0f,  0.0f,  0.0f,  //Se mantiene en la posición x = 0 mientras gira a la izquierda
-							  0.0f, 10.0f, 20.0f,  30.0f, 40.0f, 50.0f,   60.0f, 70.0f, 80.0f,   90.0f, 100.0f, 110.0f,  //Movimiento hacia la izquierda
-							  110.0f, 110.0f, 110.0f,  //Se mantiene en la posición x = 110 mientras gira a la izquierda
+							  0.0f,  0.0f,  0.0f,  //x = 0 while ship turns to the left
+							  0.0f, 10.0f, 20.0f,  30.0f, 40.0f, 50.0f,   60.0f, 70.0f, 80.0f,   90.0f, 100.0f, 110.0f,  //Leftward movement 
+							  110.0f, 110.0f, 110.0f,  //x = 110 while ship turns to the left
 							  110.0f, 109.85, 109.7, 109.7, 109.85, 110.0f,  110.0f, 109.85, 109.7, 109.7, 109.85, 110.0f,
-							  110.0f, 110.0f, 110.0f,  //Se mantiene en la posición x = 110 mientras gira a la izquierda
-	                          110.0f, 100.0f, 90.0f, 80.0f, 70.0f, 60.0f, 50.0f, 40.0f, 30.0f, 20.0f, 10.0f, 0.0f,  //Movimiento hacia la derecha
-							  0.0f,  0.0f,  0.0f,  //Se mantiene en la posición x = 0 mientras gira a la izquierda
+							  110.0f, 110.0f, 110.0f,  //x = 110 while ship turns to the left
+	                          110.0f, 100.0f, 90.0f, 80.0f, 70.0f, 60.0f, 50.0f, 40.0f, 30.0f, 20.0f, 10.0f, 0.0f,  //Rightward movement
+							  0.0f,  0.0f,  0.0f,  //x = 0 while ship turns to the left
                             };
 
-GLfloat valoresPosZ[]     = { 0.0f, 10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70.0f, 80.0f, 90.0f, 100.0f, 110.0f,  //Movimiento hacia adelante
-							  110.0f, 110.0f, 110.0f,  //Se mantiene en la posición z = 110 mientras gira a la izquierda
+GLfloat valoresPosZ[]     = { 0.0f, 10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f, 70.0f, 80.0f, 90.0f, 100.0f, 110.0f,  //Backward movement
+							  110.0f, 110.0f, 110.0f,  //z = 110 while ship turns to the left
 	                          110.0f, 109.85, 109.7, 109.7, 109.85, 110.0f,  110.0f, 109.85, 109.7,109.7, 109.85, 110.0f, 
-							  110.0f, 110.0f, 110.0f,  //Se mantiene en la posición z = 110 mientras gira a la izquierda
-	                          110.0f, 100.0f, 90.0f, 80.0f, 70.0f, 60.0f, 50.0f, 40.0f, 30.0f, 20.0f, 10.0f, 0.0f,  //Movimiento hacia atrás
-							  0.0f, 0.0f,  0.0f,  //Se mantiene en la posición z = 0 mientras gira a la izquierda
+							  110.0f, 110.0f, 110.0f,  //z = 110 while ship turns to the left
+	                          110.0f, 100.0f, 90.0f, 80.0f, 70.0f, 60.0f, 50.0f, 40.0f, 30.0f, 20.0f, 10.0f, 0.0f,  //Forward movement
+							  0.0f, 0.0f,  0.0f,  //z = 0 while ship turns to the left
 							  0.0f, 0.15f, 0.3f,   0.3f,  0.15f, 0.0f,    0.0f,  0.15f, 0.3f, 0.3f,  0.15f, 0.0f,
-							  0.0f, 0.0f,  0.0f  //Se mantiene en la posición z = 0 mientras gira a la izquierda
+							  0.0f, 0.0f,  0.0f //z = 0 while ship turns to the left
                             };
 
-GLfloat valoresRotMerry[] = { 4.0f, 4.0f,  4.0f,  -8.0f, -8.0f, -8.0f,  4.0f,  4.0f,  4.0f,  -8.0f, -8.0f,  -8.0f,    //Rotación ligera mientras avanza hacia adelante
-                              30.0f, 60.0f, 90.0f,   //Giro hacia la derecha (90°)
-							  94.0f, 94.0f,  94.0f, 86.0f, 86.0f, 86.0f,  94.0f,  94.0f,  94.0f,  86.0f, 86.0f,  90.0f,    //Rotación ligera mientras avanza hacia la derecha
-                              120.0f, 150.0f, 180.0f,  //Giro hacia la izquierda (180°)
-	                          184.0f, 184.0f, 184.0f,  176.0f, 176.0f, 176.0f,  184.0f, 184.0f, 184.0f,  176.0f, 176.0f, 180.0f, //Rotación ligera mientras avanza hacia atrás
-							  210.0f, 240.0f, 270.0f,  //Giro hacia la izquierda (270°)
-	                          274.0f, 274.0f, 274.0f,  266.0f, 266.0f, 266.0f, 274.0f, 274.0f, 274.0f,  276.0f, 276.0f, 300.0f, //Rotación ligera mientras avanza hacia la izquierda
-							  300.0f, 330.0f, 360.0f,  //Giro hacia la izquierda (360°)
+GLfloat valoresRotMerry[] = { 4.0f, 4.0f,  4.0f,  -8.0f, -8.0f, -8.0f,  4.0f,  4.0f,  4.0f,  -8.0f, -8.0f,  -8.0f, //slight rotation while moving
+                              30.0f, 60.0f, 90.0f,   //turn to the left (90°)
+							  94.0f, 94.0f,  94.0f, 86.0f, 86.0f, 86.0f,  94.0f,  94.0f,  94.0f,  86.0f, 86.0f,  90.0f, //slight rotation while moving
+                              120.0f, 150.0f, 180.0f,  //turn to the left (180°)
+	                          184.0f, 184.0f, 184.0f,  176.0f, 176.0f, 176.0f,  184.0f, 184.0f, 184.0f,  176.0f, 176.0f, 180.0f, //slight rotation while moving
+							  210.0f, 240.0f, 270.0f,  //turn to the left (270°)
+	                          274.0f, 274.0f, 274.0f,  266.0f, 266.0f, 266.0f, 274.0f, 274.0f, 274.0f,  276.0f, 276.0f, 300.0f, //slight rotation while moving
+							  300.0f, 330.0f, 360.0f,  //turn to the left (360°)
 							 };
 
-//Función que carga los valores para cada frame dentro de la estructura
+//Load pre defined values function to the frames 
 void asignarValores(void)
 {
 	int i = 0;
@@ -135,7 +135,7 @@ void asignarValores(void)
 	}
 }
 
-//Función que establece la posicion inicial del modelo 
+//Put the models on the initial position
 void resetElements(void)
 {
 	posX = KeyFrame[0].posX;
@@ -143,7 +143,7 @@ void resetElements(void)
 	rotMerry = KeyFrame[0].rotMerry;
 }
 
-//Función de interpolación para obtener valores intermedios y generar un efecto de movimiento 
+//Interpolation function. Calculates intermidiate values to the movement
 void interpolation(void)
 {
 	KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].posX - KeyFrame[playIndex].posX) / i_max_steps;
@@ -204,7 +204,7 @@ int main()
 	Shader SkyBoxshader("Shaders/SkyBox.vs", "Shaders/SkyBox.frag");
 	Shader Anim("Shaders/anim.vs", "Shaders/anim.frag");
 	
-	//Modelos dentro del Lounge
+	//Inner Lounge elements
 	Model lounge((char*)"Models/Merry/lounge/lounge.obj");
 	Model cocina((char*)"Models/Merry/cocina/cocina.obj");
 	Model refrigerador((char*)"Models/Merry/refrigerador/refri.obj");
@@ -217,7 +217,7 @@ int main()
 	Model rack_vino((char*)"Models/Merry/rack_vino/rack_vino.obj");
 	Model cajon((char*)"Models/Merry/cocina/cajon/cajon.obj");
 
-	//Modelos externos del barco
+	//Outer ship models
 	Model merry((char*)"Models/Merry/GoingMerry/merry.obj");
 	Model bandera_n1((char*)"Models/Merry/GoingMerry/banderas/bandera_negra1.obj");
 	Model bandera_n2((char*)"Models/Merry/GoingMerry/banderas/bandera_negra2.obj");
@@ -226,10 +226,10 @@ int main()
 	Model bala((char*)"Models/Merry/GoingMerry/bala/bala.obj");
 	Model canion((char*)"Models/Merry/GoingMerry/bala/canion.obj");
 
-	//Modelo superficie
+	//Surface model
 	Model mar((char*)"Models/mar/mar.obj");
 
-	//Inicialización de KeyFrames
+	//Keyframes initialization 
 	for (int i = 0; i < MAX_FRAMES; i++)
 	{
 		KeyFrame[i].posX = 0;
@@ -286,7 +286,7 @@ int main()
 		-0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,     0.0f,  1.0f
 	};
 
-
+	//Skybox face positions
 	GLfloat skyboxVertices[] = {
 		// Positions
 		-1.0f,  1.0f, -1.0f,
@@ -402,7 +402,7 @@ int main()
 
 	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
-	//Proyeccion perspectiva
+	//Perspective projection
 	glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 1000.0f);
 
 	// Game loop
@@ -475,10 +475,10 @@ int main()
 		//Carga de modelos
 
 		//LOUNGE
-		glm::mat4 model(1);
+		glm::mat4 model(1); //Clean matriz model
 		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f));  //Oscilación 
-		tmp = model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));  //Rotación del modelo para el recorrido (animación por keyframes)
+		tmp = model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));  //Model rotation for the route (keyframes)
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));  //Cambios del modelo hacia el shader
 		miniMerry.Draw(lightingShader);  //Modelo timón
 		mesa.Draw(lightingShader);   //Modelo mesa
@@ -487,93 +487,93 @@ int main()
 		merry.Draw(lightingShader);  //Modelo barco
 		lounge.Draw(lightingShader);   //Modelo Lounge
 
-		//REFRIGERADOR
-		model = glm::mat4(1);  //Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Rotación del modelo para el recorrido (animación por keyframes)
+		//REFRIGERATOR
+		model = glm::mat4(1);  //Clean matriz model
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclation
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Model rotation for the route (keyframes)
 		model = glm::translate(model, glm::vec3(-2.318, -0.217f, -4.937f));  //Traslación de refrigerador a su posición inicial
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el shader
 		refrigerador.Draw(lightingShader);  //Modelo refrigerador
 
-		model = glm::mat4(1);//Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Rotación del modelo para el recorrido (animación por keyframes)
-		model = glm::translate(model, glm::vec3(-2.25, -0.201f, -4.939f ));  //Traslación de puerta del refrigerador a su posición inicial
-		model = glm::rotate(model, glm::radians(rotPuertaRefri), glm::vec3(0.0f, 1.0f, 0.0));  //Rotación de puerta para abrir o cerrar
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el shader
-		refriPuerta.Draw(lightingShader);  //Modelo puerta refrigerador
+		model = glm::mat4(1);//Clean matriz model
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclation
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Model rotation for the route (keyframes)
+		model = glm::translate(model, glm::vec3(-2.25, -0.201f, -4.939f ));  //Refrigerators door translation to initial position
+		model = glm::rotate(model, glm::radians(rotPuertaRefri), glm::vec3(0.0f, 1.0f, 0.0));  //Door rotation to open or close
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Model changes to shader
+		refriPuerta.Draw(lightingShader);  
 
-		//CAJÓN DERECHO
-		model = glm::mat4(1); //Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Rotación del modelo para el recorrido (animación por keyframes)
-		model = glm::translate(model, glm::vec3(-0.638f, -0.335f, movCajonZ));  //Traslación ene eje z del cajón para abrir o cerrar
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el shader
-		cajon.Draw(lightingShader);  //Modelo cajón 1
+		//RIGHT DRAWER
+		model = glm::mat4(1); //Clean matriz model
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclation 
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Model rotation for the route (keyframes)
+		model = glm::translate(model, glm::vec3(-0.638f, -0.335f, movCajonZ));  //Drawer rotation on z axis to open or close 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Model changes to shader
+		cajon.Draw(lightingShader);  
 
-		//CAJÓN IZQUIERDO
-		model = glm::mat4(1); //Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Rotación del modelo para el recorrido (animación por keyframes)
-		model = glm::translate(model, glm::vec3(-1.32f, -0.335f, -0.611f)); ////Traslación del segundo cajón a su posición inicial
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el shader
-		cajon.Draw(lightingShader);  //Modelo cajón 2
+		//LEFT DRAWER
+		model = glm::mat4(1); //Clean matriz model
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclation
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Model rotation for the route (keyframes)
+		model = glm::translate(model, glm::vec3(-1.32f, -0.335f, -0.611f)); //Drawer translation to the initial position 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Model changes to shader
+		cajon.Draw(lightingShader); 
 
-		//BALA
-		model = glm::mat4(1); //Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		tmp2 = model = glm::rotate(tmp, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Rotación del modelo para el recorrido (animación por keyframes)
-		model = glm::translate(tmp2, glm::vec3(-7.0f, -2.0f, -3.5f));  //Traslación de bala a su posición inicial
-		model = glm::translate(model, glm::vec3(movBalaX, movBalaY, movBalaZ)); //Traslación de bala para su recorrido en el lanzamiento
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el shader
-		bala.Draw(lightingShader);  //Modelo bala
+		//CANNONBALL
+		model = glm::mat4(1); //Clean matriz model
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclation
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		tmp2 = model = glm::rotate(tmp, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Model rotation for the route (keyframes)
+		model = glm::translate(tmp2, glm::vec3(-7.0f, -2.0f, -3.5f));  //Cannonball translation to the initial position
+		model = glm::translate(model, glm::vec3(movBalaX, movBalaY, movBalaZ)); //Cannonball translation 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Model changes to shader
+		bala.Draw(lightingShader);  
 
-		//CAÑÓN
-		model = glm::mat4(1); //Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		tmp3 = model = glm::rotate(tmp, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Rotación del modelo para el recorrido (animación por keyframes) 
-		model = glm::translate(tmp3, glm::vec3(-7.3f, -2.106f, -3.6f));  //Traslación del cañón a su posición inicial
-		model = glm::rotate(model, glm::radians(rotCanion), glm::vec3(0.0f, 0.0f, 1.0));  //Rotación del cañon para el ajuste del lanzamiento 
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el shader
-		canion.Draw(lightingShader);  //Modelo cañón
+		//CANNON
+		model = glm::mat4(1); //Clean matriz model
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, posZ)); //Osiclation
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		tmp3 = model = glm::rotate(tmp, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Model rotation for the route (keyframes)
+		model = glm::translate(tmp3, glm::vec3(-7.3f, -2.106f, -3.6f));  //Cannon translation to the initial position
+		model = glm::rotate(model, glm::radians(rotCanion), glm::vec3(0.0f, 0.0f, 1.0));  //Connon rotation to angle adjustment
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Model changes to shader
+		canion.Draw(lightingShader);  
 
-		//PUERTA LOUNGE
-		model = glm::mat4(1); //Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Rotación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f)); //Rotación de puerta para abrir o cerrar
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el shader
-		puerta.Draw(lightingShader);  //Modelo puerta
+		//LOUNGE DOOR
+		model = glm::mat4(1); //Clean matriz model
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclation
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Model rotation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f)); //Door rotation to open or close 
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Model changes to shader
+		puerta.Draw(lightingShader);  
 
-		//OBJETOS CON TRANSPARENCIA
-		glEnable(GL_BLEND); //Avtiva la funcionalidad para trabajar el canal alfa
+		//TRANSPARENCY OBJECTS
+		glEnable(GL_BLEND); //Use alfa channel 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		model = glm::mat4(1); //Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Rotación del modelo para el recorrido (animación por keyframes)
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el shader
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclation
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Model rotation for the route (keyframes)
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Model changes to shader
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "activaTransparencia"), 0); 
-		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 0.78, 0.984, 1.0, 0.5);  //Color y grado de transparencia
-		vidrios_ventanas.Draw(lightingShader);  //Modelo ventanas
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 0.78, 0.984, 1.0, 0.5);  //Transparency color
+		vidrios_ventanas.Draw(lightingShader); 
 
-		model = glm::mat4(1); //Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(sin(0.5*tiempo), 0.0f, 0.0f)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f)); //Rotación de la ventana junto con la puerta para abrir o cerrar
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));  //Rotación del modelo para el recorrido (animación por keyframes)
-		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el lighting shader
+		model = glm::mat4(1); //Clean matriz model
+		model = glm::translate(model, glm::vec3(sin(0.5*tiempo), 0.0f, 0.0f)); //Osiclation
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotPuerta), glm::vec3(0.0f, 1.0f, 0.0f)); //Window rotation when the door is opened or closed
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0));  //Model rotation for the route (keyframes)
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model)); //Model changes to the lighting shader
 		ventana_puerta.Draw(lightingShader);  //Modelo ventana de la puerta
 
 		glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0); //Color y grado de transparencia
+		glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0, 1.0, 1.0, 1.0); //Transparency color
 
 		Anim.Use();  //Shader Anim 
 
@@ -587,34 +587,34 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
 		// Paso de parámetros hacia el shader Anim
-		glUniform1f(glGetUniformLocation(Anim.Program, "time"), 2*tiempo); //Valor del tiempo
-		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 1);  //Opción 1 de movimiento para el mar
+		glUniform1f(glGetUniformLocation(Anim.Program, "time"), 2*tiempo); //Tiem value
+		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 1);  //Option 1 - Sea movement 
 
 		//MAR
-		model = glm::mat4(1); //Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(0.0f, -5.0f, 0.0f));  //Traslación de la superficie mar
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));  //Cambios del modelo hacia el shader
+		model = glm::mat4(1); //Clean matriz model
+		model = glm::translate(model, glm::vec3(0.0f, -5.0f, 0.0f));  //Sea surface translation
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));  //Model changes to the shader
 		mar.Draw(Anim);  //Modelo mar
 
 		//BANDERAS NEGRAS
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 2);
-		model = glm::mat4(1); //Limpia matriz de modelo
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Rotación del modelo para el recorrido (animación por keyframes)
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el shader
-		bandera_n1.Draw(Anim); //Modelo bandera negra 1
-		bandera_n2.Draw(Anim); //Modelo bandera negra 2
+		model = glm::mat4(1); //Clean matriz model
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclation
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Model rotation for the route (keyframes)
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Model changes to the shader
+		bandera_n1.Draw(Anim); 
+		bandera_n2.Draw(Anim); 
 
 		//BANDERA GRANDE Y BANDERA BICOLOR
 		glUniform1i(glGetUniformLocation(Anim.Program, "option"), 3);
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclación 
-		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Traslación del modelo para el recorrido (animación por keyframes)
-		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Rotación del modelo para el recorrido (animación por keyframes)
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Cambios del modelo hacia el shader
-		bandera_bicolor.Draw(Anim); //Modelo bandera bicolor
-		bandera_grande.Draw(Anim);  //Modelo bandera grande
+		model = glm::translate(model, glm::vec3(sin(0.5 * tiempo), 0.0f, 0.0f)); //Osiclation
+		model = glm::translate(model, glm::vec3(posX, 0.0f, posZ));  //Model translation for the route (keyframes)
+		model = glm::rotate(model, glm::radians(rotMerry), glm::vec3(0.0f, 1.0f, 0.0)); //Model rotation for the route (keyframes)
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //Model changes to the shader
+		bandera_bicolor.Draw(Anim); 
+		bandera_grande.Draw(Anim);  
 
 		glBindVertexArray(0);
 
@@ -626,18 +626,18 @@ int main()
 		glUniformMatrix4fv(glGetUniformLocation(SkyBoxshader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection)); //Matríz de proyeccion hacia el shader SkyBox
 
 		// skybox cube
-		glBindVertexArray(skyboxVAO);  //Arreglo de vértices para el SkyBox 
-		glActiveTexture(GL_TEXTURE1);  //Textura del skybox
+		glBindVertexArray(skyboxVAO);  
+		glActiveTexture(GL_TEXTURE1);  //Texture 
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-		glDrawArrays(GL_TRIANGLES, 0, 36);  //Dibujar cuadrado
-		glBindVertexArray(0);  //Libración de vértices
+		glDrawArrays(GL_TRIANGLES, 0, 36);  //Draw cube
+		glBindVertexArray(0);  
 		glDepthFunc(GL_LESS); // Set depth function back to default
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
 	}
 
-	//Elimina arreglos y liberación de buffers
+	//Delated arrays and Buffers created
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
@@ -653,7 +653,7 @@ int main()
 void recorrido()
 {
 
-	//Movimiento del barco
+	//Ship movement
 
 	if (play)
 	{
@@ -686,7 +686,7 @@ void recorrido()
 	}
 }
 
-//Función para generar el movimiento parabólico de la bala
+//Parabolic shooing for firing cannonball
 void lanzamiento() {
 
 	if (lanzar) {
@@ -694,9 +694,9 @@ void lanzamiento() {
 		double ang = glm::radians(rotCanion);
 
 		if(movBalaY > -5){
-			//Dependiendo de la posición del barco, la bala se moverá en diferentes ejes X o Z
-			//Se calcula empleando la formula de tiro parabólico dado una coordenada de la posición,
-			//un ángulo de rotación y la velocidad inicial del lanzamiento
+			//Depending on the position of the ship, the bullet will move in different X or Z axis.
+			//It is calculated using the parabolic shot formula given a position coordinate,
+			//an angle of rotation and the initial velocity of the launch.
 			if (rotMerry >= -8 && rotMerry < 95) {
 				movBalaY = tan(ang) * movBalaX - (g / (2 * vi * vi * cos(ang) * cos(ang))) * movBalaX * movBalaX;
 				movBalaX -= 0.05f;
@@ -716,7 +716,7 @@ void lanzamiento() {
 				
 		}
 		else { 
-			//Reset de variables para el movimiento de la bala
+			//Reset variables to the initial position
 				rotCanion = 0.0f;
 				movBalaX = 0.0f;
 				movBalaY = 0.0f;
@@ -753,22 +753,22 @@ void DoMovement()
 		camera.ProcessKeyboard(RIGHT, deltaTime);
 	}
 
-	//Rotación del cañón 
+	//Cannon rotation 
 	if (keys[GLFW_KEY_V]) {
 		if (rotCanion >= -25 && rotCanion < 18) {  
-			rotCanion += 0.1;  //Rotación del cañón hacia abajo si se encuentra entre -25° y 18°
+			rotCanion += 0.1; // Cannon downward rotation if between -25° and 18°.
 		}
 		else {
-			rotCanion = 18;  //Asegura que la rotación del cañon sea el valor límite superior
+			rotCanion = 18;  //Secures that the canon rotation is the upper limit value
 		}
 		
 	}
 	if (keys[GLFW_KEY_N]) {
 		if (rotCanion > -25 && rotCanion <= 18) {
-			rotCanion -= 0.1; //Rotación del cañón hacia arriba si se encuentra entre -25° y 18°
+			rotCanion -= 0.1; //Rotation of the cannon upwards if between -25° and 18°.
 		}
 		else {
-			rotCanion = -25; //Asegura que la rotación del cañon sea el valor límite inferior
+			rotCanion = -25; //Secures that the barrel rotation is the lower limit value
 		}
 	}
 }
@@ -793,43 +793,43 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 		}
 	}
 
-	//Movimiento de puerta Lounge
+	//Door Lounge movement
 	if (keys[GLFW_KEY_P])
 	{
 		if (puertaAbierta) {
-			rotPuerta = 0.0f;   //Sin rotación de la puerta
-			puertaAbierta = false; //Notifica puerta cerrada
+			rotPuerta = 0.0f;   //With no door rotation
+			puertaAbierta = false; //Notifies door closed
 		}
 		else {
-			rotPuerta = -90.0f;   //Rotación de 90° de la puerta
-			puertaAbierta = true;  //Notifica puerta abierta
+			rotPuerta = -90.0f;   //Rotation of the door 90°.
+			puertaAbierta = true; // Notifies door opened
 		}
 
 	}
 
-	//Movimiento de puerta Refrigerador
+	//Door movement Refrigerator
 	if (keys[GLFW_KEY_K])
 	{
 		if (refriAbierto) {
-			rotPuertaRefri = 0.0f;  //Sin rotación para la puerta
-			refriAbierto = false;  //Notifica refrigerador cerrado
+			rotPuertaRefri = 0.0f;  //With no door rotation
+			refriAbierto = false;  //Notifies refrigerator closed
 		}
 		else {
-			rotPuertaRefri = 90.0f;  //Rotación de 90° para la puerta
-			refriAbierto = true;  //Notifica refrigerador abierto
+			rotPuertaRefri = 90.0f;  //Rotation of the door 90°.
+			refriAbierto = true;  // Notifies refrigerator opened
 		}
 
 	}
 
-	//Movimiento de cajón
+	//Drawer movement
 	if (keys[GLFW_KEY_C]) {
 		if (cajonAbierto) {
-			movCajonZ += 0.3f;  //Movimiento de cajón 0.3 unidades hacia eje positivo z
-			cajonAbierto = false;  //Notifica cajón cerrado
+			movCajonZ += 0.3f;  // Drawer movement 0.3 units towards positive z-axis
+			cajonAbierto = false;  //Notifies closed drawer
 		}
 		else {
-			movCajonZ -= 0.3f; //Movimiento de cajón 0.3 unidades hacia eje negativo z
-			cajonAbierto = true; //Notifica cajón abierto
+			movCajonZ -= 0.3f; // Drawer movement 0.3 units towards negative axis z
+			cajonAbierto = true; //Notifies open drawer
 		}
 	}
 
@@ -837,45 +837,45 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 	if (keys[GLFW_KEY_L])
 	{
 		if (lamparaOn) {
-			Light1 = glm::vec3(0);  //Sin color de luz
-			lamparaOn = false;  //Notifica que la luz está apagada
+			Light1 = glm::vec3(0);  //Without light color
+			lamparaOn = false;  //Notifies that the light is off
 		}
 		else {
-			Light1 = glm::vec3(1.0f, 1.0f, 1.0f);   //Color de luz blanca
-			lamparaOn = true;  //Notifica que la luz está encendida
+			Light1 = glm::vec3(1.0f, 1.0f, 1.0f);   //White light color
+			lamparaOn = true;  //Notifies that the light is on
 		}
 
 	}
 
-	//Movimiento del barco mediante keyframes
+	//Ship movement via keyframes
 	if (keys[GLFW_KEY_M])
 	{
 
 		if (play == false)
 		{
 
-			asignarValores();  //Asignación de valores a cada frame
+			asignarValores();   //Assigning values to each frame
 			resetElements(); 
 			//First Interpolation				
-			interpolation();  //Obtención de primeros valores intermedios mediante interpolación
+			interpolation();  //Obtaining first intermediate values by interpolation
 
-			play = true;   //Activa variable para comenzar el recorrido
+			play = true;   //Activate variable to start the run
 			playIndex = 0;  
 			i_curr_steps = 0;
 		}
 		else
 		{
-			play = false;  //Desactiva variable para terminar el recorrido
+			play = false;  //Deactivate variable to end the run
 		}
 
 	}
 
-	//Lanzamiento de bala
+	//Cannonball firing
 	if (keys[GLFW_KEY_B])
 	{
 		if (lanzar == false)
 		{
-			lanzar = true;  //Activa variable para comenzar el lanzamiento de la bala
+			lanzar = true;  //Activate variable to start bullet launching
 		}
 	}
 }
