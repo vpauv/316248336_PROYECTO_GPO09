@@ -232,6 +232,7 @@ int main()
 	Model sillon2((char*)"Models/Merry/sillon/sillon2.obj");
 	Model alfombra((char*)"Models/Merry/alfombra/alfombra.obj");
 	Model mesa2((char*)"Models/Merry/mesa/mesa.obj");
+	Model barril((char*)"Models/Merry/barril/barril.obj");
 
 	//Surface model
 	Model mar((char*)"Models/mar/mar.obj");
@@ -498,7 +499,7 @@ int main()
 		sillon2.Draw(lightingShader);   //Modelo sillon 2
 		alfombra.Draw(lightingShader);   //Modelo alfombra
 		mesa2.Draw(lightingShader);   //Modelo mesa
-
+		barril.Draw(lightingShader);   //Modelo barril
 
 		//REFRIGERATOR
 		model = glm::mat4(1);  //Clean matriz model

@@ -29,6 +29,44 @@ Ni 1.00
 Ks 0.00 0.00 0.00
 map_Ks metal_s.jpg
 Ns 18.00
+newmtl lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd pared_madera.jpg
+Ni 1.00
+newmtl lambert3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd piso_madera2.jpg
+Ni 1.00
+newmtl lambert4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd techo_interior.jpg
+Ni 1.00
+newmtl lounge_lambert14SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd lampara.jpg
+Ni 1.00
+newmtl lounge_phong3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd metal_lampara.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks metal_lampara_s.jpg
+Ns 18.00
 newmtl merry_lambert5SG2
 illum 4
 Kd 0.00 0.00 0.00
